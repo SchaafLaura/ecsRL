@@ -1,6 +1,4 @@
-﻿using SadConsole;
-
-namespace ecsRL
+﻿namespace ecsRL
 {
     public class AIComponent : Component
     {

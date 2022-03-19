@@ -1,11 +1,8 @@
 ﻿using SadConsole;
 using SadRogue.Primitives;
-using System;
-using Console = SadConsole.Console;
 
 namespace ecsRL
 {
-    
     public class Program
     {
         public static ECS ecs;
@@ -32,8 +29,6 @@ namespace ecsRL
             Game.Instance.Screen = rootScreen;
             Game.Instance.DestroyDefaultStartingConsole();
 
-
-
             Entity actor1 = new Entity
             {
                 position = new Point(12, 7)
@@ -44,18 +39,7 @@ namespace ecsRL
                     new ColoredGlyph(Color.HotPink, Color.Transparent, '@')),
                 new AIComponent());
 
-
-            Entity actor2 = new Entity
-            {
-                position = new Point(20, 16)
-            };
-
-            ecs.addEntity(actor2,
-                new RenderComponent(
-                    new ColoredGlyph(Color.AnsiBlue, Color.Transparent, '@')),
-                new AIComponent());
-
-
+            ecs.deleteEntity(actor1.id);
         }
     }
 }

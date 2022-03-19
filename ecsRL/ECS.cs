@@ -5,14 +5,19 @@ namespace ecsRL
 {
     public class ECS
     {
-        Dictionary<int, Entity> entities = new Dictionary<int, Entity>();
-
-        HoleyList<Entity> entities = new HoleyList<Entity>();
+        Dictionary<int, Entity> entities;
         System[] systems;
+
+        static Stack<int> freeIDs;
+        static int runningID = 0;
 
         public ECS()
         {
-            entities = new HoleyList<Entity>();
+            freeIDs = new Stack<int>();
+            freeIDs.Push(runningID++);
+
+            entities = new Dictionary<int, Entity>();
+
             initSystems();
         }
 
@@ -25,9 +30,19 @@ namespace ecsRL
             systems[(int) ComponentType.AIComponent]        = new AISystem();
         }
 
+        public void deleteEntity(int id)
+        {
+            entities.Remove(id);
+            foreach(System system in systems)
+            {
+                system.remove(id);
+            }
+            freeIDs.Push(id);
+        }
+
         public Entity getEntity(int id)
         {
-            return entities.get(id);
+            return entities[id];
         }
 
         public void addComponentsToEntity(Entity E, params Component[] components)
@@ -43,9 +58,19 @@ namespace ecsRL
 
         public void addEntity(Entity E, params Component[] components)
         {
-            int id = entities.add(E);
+            int id;
+            if(freeIDs.Count != 0)
+            {
+                id = freeIDs.Pop();
+            }
+            else
+            {
+                id = runningID++;
+                freeIDs.Push(runningID);
+            }
 
             E.id = id;
+            entities[id] = E;
 
             foreach(Component component in components)
             {

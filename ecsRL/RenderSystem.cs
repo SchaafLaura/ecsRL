@@ -11,9 +11,9 @@
             // for now just update all the components
             // later only stuff on screen should draw
             // all drawing should be pooled and then the screen should redraw
-            foreach(Component c in components)
+            foreach(var component in components)
             {
-                c.update();
+                component.Value.update();
             }
         }
     }

@@ -9,9 +9,9 @@
         public override void updateComponents()
         {
             // for now just update all the components
-            foreach(Component c in components)
+            foreach(var component in components)
             {
-                c.update();
+                component.Value.update();
             }
         }
     }

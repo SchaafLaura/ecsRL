@@ -6,13 +6,11 @@ namespace ecsRL
     public class RenderComponent : Component
     {
         ColoredGlyph glyph;
-
         public RenderComponent(ColoredGlyph glyph)
         {
             this.glyph = glyph;
             this.type = ComponentType.RenderComponent;
         }
-
         public override void update()
         {
             Point position = Program.ecs.getEntity(attachedToID).position;
