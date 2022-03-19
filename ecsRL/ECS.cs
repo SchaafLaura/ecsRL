@@ -5,6 +5,8 @@ namespace ecsRL
 {
     public class ECS
     {
+        Dictionary<int, Entity> entities = new Dictionary<int, Entity>();
+
         HoleyList<Entity> entities = new HoleyList<Entity>();
         System[] systems;
 
