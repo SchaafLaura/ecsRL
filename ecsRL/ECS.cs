@@ -20,7 +20,6 @@ namespace ecsRL
 
             initSystems();
         }
-
         private void initSystems()
         {
             int numberOfSystems = Enum.GetValues(typeof(ComponentType)).Length;
@@ -29,22 +28,22 @@ namespace ecsRL
             systems[(int) ComponentType.RenderComponent]    = new RenderSystem();
             systems[(int) ComponentType.AIComponent]        = new AISystem();
         }
-
         public void deleteEntity(int id)
         {
-            entities.Remove(id);
+            entities.Remove(id); // maybe this is not needed? just push the id to the freeID stack
+
+            // this is needed however, because systems will try to update all components 
+            // regardless of weather or not the entity exists
             foreach(System system in systems)
             {
                 system.remove(id);
             }
             freeIDs.Push(id);
         }
-
         public Entity getEntity(int id)
         {
             return entities[id];
         }
-
         public void addComponentsToEntity(Entity E, params Component[] components)
         {
             int id = E.id;
@@ -55,7 +54,6 @@ namespace ecsRL
                 systems[type].add(component);
             }
         }
-
         public void addEntity(Entity E, params Component[] components)
         {
             int id;
@@ -79,7 +77,6 @@ namespace ecsRL
                 systems[type].add(component);
             }
         }
-
         public void updateSystems()
         {
             foreach(System system in systems)
