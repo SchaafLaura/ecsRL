@@ -1,16 +1,16 @@
-﻿public enum ComponentType
+﻿namespace ecsRL
 {
-    RenderComponent = 0,
-    AIComponent = 1,
-}
-
-namespace ecsRL
-{
+    public enum ComponentID
+    {
+        AI_COMPONENT = 0,
+        RENDER_COMPONENT = 1,
+    }
     public abstract class Component
     {
-        public ComponentType type;
-        public int attachedToID; // ID of the entity this is attached to
-        public abstract void update();
+        public uint attachedToID; // ID of the entity this is attached to
+        public static int id;
+        public abstract int componentID();
+
     }
 }
  

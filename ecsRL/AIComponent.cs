@@ -1,14 +1,12 @@
-﻿namespace ecsRL
+﻿using System;
+namespace ecsRL
 {
     public class AIComponent : Component
     {
-        public AIComponent()
+        public static new int id = (int)ComponentID.AI_COMPONENT;
+        public override int componentID()
         {
-            type = ComponentType.AIComponent;
-        }
-        public override void update()
-        {
-            // take a turn and shit
+            return id;
         }
     }
 }

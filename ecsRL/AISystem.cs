@@ -1,17 +1,16 @@
 ﻿namespace ecsRL
 {
-    public class AISystem : System
+    public class AISystem : System<AIComponent>
     {
         public AISystem()
         {
-            type = ComponentType.AIComponent;
         }
-        public override void updateComponents()
+        public override void update()
         {
             // for now just update all the components
-            foreach(var component in components)
+            for(uint i = 0; i < components.Count; i++)
             {
-                component.Value.update();
+                // do something with the component
             }
         }
     }

@@ -7,15 +7,14 @@ namespace ecsRL
     {
         public static ECS ecs;
         public static RootScreen rootScreen;
-        public const int SCREEN_WIDTH = 240;
-        public const int SCREEN_HEIGHT = 64;
+        public const int SCREEN_WIDTH = 160;
+        public const int SCREEN_HEIGHT = 85;
 
         private static void Main(string[] args)
         {
             Settings.WindowTitle = "SadConsole Game";
-            Settings.UseDefaultExtendedFont = true;
-            Game.Create(SCREEN_WIDTH, SCREEN_HEIGHT);
-
+            Settings.ResizeMode = Settings.WindowResizeOptions.Stretch; // might be a terrible idea, but a quick fix
+            Game.Create(SCREEN_WIDTH, SCREEN_HEIGHT, "Cheepicus12.font");
             Game.Instance.OnStart = Init;
             Game.Instance.Run();
             Game.Instance.Dispose();
@@ -39,7 +38,7 @@ namespace ecsRL
                     new ColoredGlyph(Color.HotPink, Color.Transparent, '@')),
                 new AIComponent());
 
-            ecs.deleteEntity(actor1.id);
+            //ecs.deleteEntity(actor1.id);
         }
     }
 }

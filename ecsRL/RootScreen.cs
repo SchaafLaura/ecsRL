@@ -18,7 +18,7 @@ namespace ecsRL
         public static int logDisplayHeight = Program.SCREEN_HEIGHT / 2 - 1;
 
         public static int playerInfoDisplayWidth = 40 - 2;
-        public static int playerInfoDisplayHeight = Program.SCREEN_HEIGHT / 2 - 2;
+        public static int playerInfoDisplayHeight = Program.SCREEN_HEIGHT / 2 - 1;
 
         public RootScreen()
         {

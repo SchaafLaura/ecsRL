@@ -5,58 +5,57 @@ namespace ecsRL
 {
     public class ECS
     {
-        Dictionary<int, Entity> entities;
-        System[] systems;
+        Dictionary<uint, Entity> entities;
+        SystemBase[] systems;
 
-        static Stack<int> freeIDs;
-        static int runningID = 0;
+        static Stack<uint> freeIDs;
+        static uint runningID = 0;
 
         public ECS()
         {
-            freeIDs = new Stack<int>();
+            freeIDs = new Stack<uint>();
             freeIDs.Push(runningID++);
 
-            entities = new Dictionary<int, Entity>();
+            entities = new Dictionary<uint, Entity>();
 
             initSystems();
         }
         private void initSystems()
         {
-            int numberOfSystems = Enum.GetValues(typeof(ComponentType)).Length;
-            systems = new System[numberOfSystems];
+            systems = new SystemBase[Enum.GetValues(typeof(ComponentID)).Length];
 
-            systems[(int) ComponentType.RenderComponent]    = new RenderSystem();
-            systems[(int) ComponentType.AIComponent]        = new AISystem();
+            systems[(int) ComponentID.RENDER_COMPONENT] = new RenderSystem();
+            systems[(int) ComponentID.AI_COMPONENT] = new AISystem();
         }
-        public void deleteEntity(int id)
+        public void deleteEntity(uint id)
         {
             entities.Remove(id); // maybe this is not needed? just push the id to the freeID stack
 
             // this is needed however, because systems will try to update all components 
             // regardless of weather or not the entity exists
-            foreach(System system in systems)
+            foreach(SystemBase system in systems)
             {
                 system.remove(id);
             }
             freeIDs.Push(id);
         }
-        public Entity getEntity(int id)
+        public Entity getEntity(uint id)
         {
             return entities[id];
         }
         public void addComponentsToEntity(Entity E, params Component[] components)
         {
-            int id = E.id;
+            uint id = E.ID;
             foreach(Component component in components)
             {
                 component.attachedToID = id;
-                int type = (int)component.type;
+                int type = component.componentID();
                 systems[type].add(component);
             }
         }
         public void addEntity(Entity E, params Component[] components)
         {
-            int id;
+            uint id;
             if(freeIDs.Count != 0)
             {
                 id = freeIDs.Pop();
@@ -67,21 +66,21 @@ namespace ecsRL
                 freeIDs.Push(runningID);
             }
 
-            E.id = id;
+            E.ID = id;
             entities[id] = E;
 
             foreach(Component component in components)
             {
                 component.attachedToID = id;
-                int type = (int)component.type;
+                int type = component.componentID();
                 systems[type].add(component);
             }
         }
         public void updateSystems()
         {
-            foreach(System system in systems)
+            foreach(SystemBase system in systems)
             {
-                system.updateComponents();
+                system.update();
             }
         }
 

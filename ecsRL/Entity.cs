@@ -1,10 +1,11 @@
 ﻿using SadRogue.Primitives;
+using GoRogue;
 
 namespace ecsRL
 {
-    public class Entity
+    public class Entity : IHasID
     {
-        public int id;
+        public uint ID { get; set; }
         public string name;
         public Point position;
     }

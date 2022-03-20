@@ -2,17 +2,15 @@
 
 namespace ecsRL
 {
-    public abstract class System
+    public abstract class System<T> : SystemBase where T : Component
     {
-        public ComponentType type;
-        protected Dictionary<int, Component> components = new Dictionary<int, Component> ();
-        public abstract void updateComponents();
+        protected Dictionary<uint, T> components = new Dictionary<uint, T> ();
 
-        public void add(Component c)
+        public override void add(Component component)
         {
-            components.Add(c.attachedToID, c);
+            components.Add(component.attachedToID, (T) component);
         }
-        public void remove(int id)
+        public override void remove(uint id)
         {
             components.Remove(id);
         }

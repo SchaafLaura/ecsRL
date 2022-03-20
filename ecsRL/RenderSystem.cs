@@ -1,20 +1,29 @@
-﻿namespace ecsRL
+﻿using SadConsole;
+using SadRogue.Primitives;
+namespace ecsRL
 {
-    public class RenderSystem : System
+    public class RenderSystem : System<RenderComponent>
     {
         public RenderSystem()
         {
-            type = ComponentType.RenderComponent;
+
         }
-        public override void updateComponents()
+        public override void update()
         {
             // for now just update all the components
             // later only stuff on screen should draw
             // all drawing should be pooled and then the screen should redraw
-            foreach(var component in components)
+
+            for(uint i = 0; i < components.Count; i++)
             {
-                component.Value.update();
+                RenderComponent component =  components[i];
+
+                ColoredGlyph G = component.glyph;
+                Point position = Program.ecs.getEntity(component.attachedToID).position;
+
+                Program.rootScreen.drawGlyph(position.X, position.Y, G);
             }
+
         }
     }
 }
