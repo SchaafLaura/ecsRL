@@ -20,6 +20,7 @@ namespace ecsRL
 
             initSystems();
         }
+
         private void initSystems()
         {
             systems = new SystemBase[Enum.GetValues(typeof(ComponentID)).Length];
@@ -27,6 +28,7 @@ namespace ecsRL
             systems[(int) ComponentID.RENDER_COMPONENT] = new RenderSystem();
             systems[(int) ComponentID.AI_COMPONENT] = new AISystem();
         }
+
         public void deleteEntity(uint id)
         {
             entities.Remove(id); // maybe this is not needed? just push the id to the freeID stack
@@ -39,10 +41,13 @@ namespace ecsRL
             }
             freeIDs.Push(id);
         }
+
         public Entity getEntity(uint id)
         {
             return entities[id];
         }
+
+        // adds components to an entity, that is already in the ecs
         public void addComponentsToEntity(Entity E, params Component[] components)
         {
             uint id = E.ID;
@@ -53,6 +58,7 @@ namespace ecsRL
                 systems[type].add(component);
             }
         }
+
         public void addEntity(Entity E, params Component[] components)
         {
             uint id;

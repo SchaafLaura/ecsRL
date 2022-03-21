@@ -7,12 +7,15 @@ namespace ecsRL
     {
         public static ECS ecs;
         public static RootScreen rootScreen;
+        
         public const int SCREEN_WIDTH = 160;
         public const int SCREEN_HEIGHT = 85;
 
+        public static Color uiColor = Color.Turquoise;
+
         private static void Main(string[] args)
         {
-            Settings.WindowTitle = "SadConsole Game";
+            Settings.WindowTitle = "Burden of Dreams";
             Settings.ResizeMode = Settings.WindowResizeOptions.Stretch; // might be a terrible idea, but a quick fix
             Game.Create(SCREEN_WIDTH, SCREEN_HEIGHT, "Cheepicus12.font");
             Game.Instance.OnStart = Init;
@@ -28,12 +31,25 @@ namespace ecsRL
             Game.Instance.Screen = rootScreen;
             Game.Instance.DestroyDefaultStartingConsole();
 
-            Entity actor1 = new Entity
+
+            Entity human = new Entity
             {
-                position = new Point(12, 7)
+                position = new Point(23, 7),
+                name = "Laura"
             };
 
-            ecs.addEntity(actor1,
+            Entity cat = new Entity
+            {
+                position = new Point(6, 10),
+                name = "Lisa"
+            };
+
+            ecs.addEntity(cat,
+                new AIComponent(),
+                new RenderComponent(
+                    new ColoredGlyph(Color.Turquoise, Color.Transparent, '@')));
+
+            ecs.addEntity(human,
                 new RenderComponent(
                     new ColoredGlyph(Color.HotPink, Color.Transparent, '@')),
                 new AIComponent());
