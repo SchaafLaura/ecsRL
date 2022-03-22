@@ -8,7 +8,9 @@ namespace ecsRL
     public class RootScreen : ScreenObject
     {
         private LogDisplay _logDisplay;
-        private ScreenSurface mapDisplay;
+        private MapDisplay _mapDisplay;
+
+        //private ScreenSurface mapDisplay;
         private ScreenSurface playerInfoDisplay;
 
         public static int mapDisplayWidth = Program.SCREEN_WIDTH - 40 - 1;
@@ -22,33 +24,38 @@ namespace ecsRL
 
         public RootScreen()
         {
-            mapDisplay = new ScreenSurface(mapDisplayWidth, mapDisplayHeight);
             playerInfoDisplay = new ScreenSurface(playerInfoDisplayWidth, playerInfoDisplayHeight);
-
-            mapDisplay.Position = new Point(1, 1);
             playerInfoDisplay.Position = new Point(mapDisplayWidth + 2, logDisplayHeight + 2);
-
-            mapDisplay.Surface.Fill(Color.Transparent, Color.Gray);
             playerInfoDisplay.Surface.Fill(Color.Transparent, Color.Brown);
-
-            Children.Add(mapDisplay);
             Children.Add(playerInfoDisplay);
 
 
-            _logDisplay = new LogDisplay(logDisplayWidth, logDisplayHeight, new Point(mapDisplayWidth + 2, 1));
+            _logDisplay = new LogDisplay(
+                logDisplayWidth, 
+                logDisplayHeight, 
+                new Point(mapDisplayWidth + 2, 1));
             Children.Add(_logDisplay);
+
+            _mapDisplay = new MapDisplay(
+                1000, 
+                1000, 
+                mapDisplayWidth, 
+                mapDisplayHeight, 
+                new Point(500, 500), 
+                new Point(1, 1));
+            Children.Add(_mapDisplay);
 
         }
 
-        public void drawGlyph(int x, int y, ColoredGlyph glyph)
+        public void drawGlyphOnMap(int x, int y, ColoredGlyph glyph)
         {
-            mapDisplay.Surface.SetGlyph(x, y, glyph);
+            _mapDisplay.drawGlyph(x, y, glyph);
         }
 
         public override void Update(TimeSpan delta)
         {
-            Program.ecs.updateSystems();
             base.Update(delta);
+            Program.ecs.updateSystems();
         }
 
         public override bool ProcessKeyboard(Keyboard keyboard)

@@ -21,7 +21,7 @@ namespace ecsRL
                 ColoredGlyph G = component.glyph;
                 Point position = Program.ecs.getEntity(component.attachedToID).position;
 
-                Program.rootScreen.drawGlyph(position.X, position.Y, G);
+                Program.rootScreen.drawGlyphOnMap(position.X, position.Y, G);
             }
 
         }
