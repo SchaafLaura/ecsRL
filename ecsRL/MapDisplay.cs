@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using SadConsole;
+using SadConsole.UI;
 using SadRogue.Primitives;
 
 namespace ecsRL
@@ -58,7 +59,7 @@ namespace ecsRL
                     true,
                     true));
 
-            surface.Surface.Print(1, 1, "Map");
+            surface.Surface.Print(1, 0, "Map");
 
             Children.Add(surface);
         }

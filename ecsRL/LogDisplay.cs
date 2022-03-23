@@ -35,12 +35,13 @@ namespace ecsRL
                     true,
                     true));
 
+            surface.Surface.Print(1, 0, "Log");
+
             Children.Add(surface);
         }
 
         public void display()
         {
-            surface.Surface.Print(1, 1, "Log");
             for(int i = log.numberOfItems - 1; i >= 0 ; i--)
             {
                 ColoredString logMessage = log.get(i);

@@ -9,6 +9,16 @@ namespace ecsRL
     {
         public bool isPassable;
         public ColoredGlyph glyph = new ColoredGlyph(Color.Transparent, Color.Transparent);
+
+        public Tile()
+        {
+
+        }
+        public Tile(ColoredGlyph glyph, bool isPassable)
+        {
+            this.glyph = glyph;
+            this.isPassable = isPassable;
+        }
     }
 
     public class Map
@@ -36,28 +46,59 @@ namespace ecsRL
             {
                 for(int j = 0; j < height; j++)
                 {
-                    Tile tile = new Tile();
-                    if(rng.Next(0, 100) > 95)
-                    {
-                        tile.isPassable = false;
-                        tile.glyph = new ColoredGlyph(Color.DarkOliveGreen, Color.Transparent, '#');
-                    }
                     
+                    int rand = rng.Next(0, 100);
+
+                    Tile tile;
+                    if(rand < 80)
+                    {
+                        tile = groundTile;
+                    }
+                    else if(rand < 95)
+                    {
+                        tile = grassTile;
+                    }
+                    else if(rand < 99)
+                    {
+                        tile = shrubTile;
+                    }else
+                    {
+                        tile = waterTile;
+                    }
                     tiles[i, j] = tile;
                 }
             }
 
-            Tile T = new Tile();
-            T.glyph = new ColoredGlyph(Color.DarkOrchid, Color.Transparent, '*');
-
-            for(int i = 450; i < 500; i++)
-            {
-                for(int j = 500; j < 530; j++)
-                {
-                    tiles[i, j] = T;
-                }
-            }
-
         }
+
+        Tile groundTile = new Tile(
+            new ColoredGlyph(
+                Color.Transparent,
+                Color.Transparent,
+                ' '),
+            true);
+
+        Tile grassTile = new Tile(
+            new ColoredGlyph(
+                Color.Green,
+                Color.Transparent,
+                '.'),
+            true);
+
+        Tile shrubTile = new Tile(
+            new ColoredGlyph(
+                Color.Green,
+                Color.Transparent,
+                'v'),
+            true);
+
+        Tile waterTile = new Tile(
+            new ColoredGlyph(
+                Color.DarkBlue,
+                Color.Transparent,
+                '~'),
+            false);
+
+
     }
 }

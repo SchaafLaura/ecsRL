@@ -16,7 +16,7 @@ namespace ecsRL
         private static void Main(string[] args)
         {
             Settings.WindowTitle = "Burden of Dreams";
-            Settings.ResizeMode = Settings.WindowResizeOptions.Stretch; // might be a terrible idea, but a quick fix
+            //Settings.ResizeMode = Settings.WindowResizeOptions.Stretch; // might be a terrible idea, but a quick fix
             Game.Create(SCREEN_WIDTH, SCREEN_HEIGHT, "Cheepicus12.font");
             Game.Instance.OnStart = Init;
             Game.Instance.Run();
