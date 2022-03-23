@@ -59,8 +59,6 @@ namespace ecsRL
                         Color.Transparent));
 
                 surface.Surface.Print(x + 2, y, logMessage);
-
-
             }
         }
 

@@ -31,7 +31,6 @@ namespace ecsRL
                 position = new Point(523, 507),
                 name = "Laura"
             };
-
             Entity Lisa = new Entity
             {
                 position = new Point(522, 507),
@@ -42,21 +41,14 @@ namespace ecsRL
                 new AIComponent(),
                 new RenderComponent(
                     new ColoredGlyph(Color.HotPink, Color.Transparent, '@')));
-
             ecs.addEntity(Lisa,
                 new RenderComponent(
                     new ColoredGlyph(Color.Turquoise, Color.Transparent, '@')),
                 new AIComponent());
 
-
-
             rootScreen = new RootScreen();
             Game.Instance.Screen = rootScreen;
             Game.Instance.DestroyDefaultStartingConsole();
-
-
-            
-            
         }
     }
 }
