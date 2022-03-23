@@ -69,7 +69,16 @@ namespace ecsRL
                 }
             }
 
+            tiles[523, 508] = debugTile;
+
         }
+
+        Tile debugTile = new Tile(
+            new ColoredGlyph(
+                Color.Violet,
+                Color.Violet,
+                '%'),
+            true);
 
         Tile groundTile = new Tile(
             new ColoredGlyph(

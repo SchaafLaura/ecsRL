@@ -29,12 +29,29 @@ namespace ecsRL
             
         }
 
+        public Point gameCoordsToScreenCoords(Point gameCoords)
+        {
+            return new Point(gameCoords.X - (mapViewPosition.X - viewWidth/2) , gameCoords.Y - (mapViewPosition.Y - viewHeight / 2));
+        }
+
+        public Point screenCoordsToGameCoords(Point screenCoords)
+        {
+            return new Point(screenCoords.X + (mapViewPosition.X - viewWidth/2) , screenCoords.Y + (mapViewPosition.Y - viewHeight / 2));
+        }
+
         public MapDisplay(Map map, int viewWidth, int viewHeight, Point screenPosition)
         {
             this.map = map;
             surface = new ScreenSurface(viewWidth, viewHeight);
             surface.Position = screenPosition;
             init();
+        }
+
+        public void centerOnEntity(Entity entity)
+        {
+            mapViewPosition = new Point(
+                entity.position.X,
+                entity.position.Y);
         }
 
         private void init()
@@ -72,20 +89,19 @@ namespace ecsRL
 
         public void drawGlyph(int x, int y, ColoredGlyph glyph)
         {
-            surface.Surface.SetGlyph(x, y, glyph);
+            Point screenPos = gameCoordsToScreenCoords(new Point(x, y));
+            surface.Surface.SetGlyph(screenPos.X + 1, screenPos.Y + 1, glyph);
         }
 
         private void displayTiles()
         {
-            ;
-            for(int i = mapViewPosition.X - viewWidth / 2; i < mapViewPosition.X + viewWidth / 2 - 1; i++)
+            for(int i = 1; i < viewWidth - 2; i++)
             {
-                for(int j = mapViewPosition.Y - viewHeight / 2; j < mapViewPosition.Y + viewHeight / 2 - 1; j++)
+                for(int j = 1; j < viewHeight - 2; j++)
                 {
-                    Tile tile = map.tiles[i, j];
-                    int x = i - (mapViewPosition.X - viewWidth / 2) + 1;
-                    int y = j - (mapViewPosition.Y - viewHeight / 2) + 1;
-                    drawGlyph(x, y, tile.glyph);
+                    Point gamePos = screenCoordsToGameCoords(new Point(i, j));
+                    Tile tile = map.tiles[gamePos.X, gamePos.Y];
+                    surface.Surface.SetGlyph(i+1, j+ 1, tile.glyph);
                 }
             }
         }

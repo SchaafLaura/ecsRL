@@ -41,9 +41,12 @@ namespace ecsRL
                 1000, 
                 mapDisplayWidth, 
                 mapDisplayHeight, 
-                new Point(500, 500), 
+                new Point(0, 0), 
                 new Point(1, 1));
+            _mapDisplay.centerOnEntity(Program.ecs.getEntity(0));
+            
             Children.Add(_mapDisplay);
+
 
         }
 

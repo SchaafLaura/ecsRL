@@ -27,34 +27,37 @@ namespace ecsRL
         {
             ecs = new ECS();
 
+            Entity Laura = new Entity
+            {
+                position = new Point(523, 507),
+                name = "Laura"
+            };
+
+            Entity Lisa = new Entity
+            {
+                position = new Point(522, 507),
+                name = "Lisa"
+            };
+
+            ecs.addEntity(Laura,
+                new AIComponent(),
+                new RenderComponent(
+                    new ColoredGlyph(Color.HotPink, Color.Transparent, '@')));
+
+            ecs.addEntity(Lisa,
+                new RenderComponent(
+                    new ColoredGlyph(Color.Turquoise, Color.Transparent, '@')),
+                new AIComponent());
+
+
+
             rootScreen = new RootScreen();
             Game.Instance.Screen = rootScreen;
             Game.Instance.DestroyDefaultStartingConsole();
 
 
-            Entity human = new Entity
-            {
-                position = new Point(23, 7),
-                name = "Laura"
-            };
-
-            Entity cat = new Entity
-            {
-                position = new Point(6, 10),
-                name = "Lisa"
-            };
-
-            ecs.addEntity(cat,
-                new AIComponent(),
-                new RenderComponent(
-                    new ColoredGlyph(Color.Turquoise, Color.Transparent, '@')));
-
-            ecs.addEntity(human,
-                new RenderComponent(
-                    new ColoredGlyph(Color.HotPink, Color.Transparent, '@')),
-                new AIComponent());
-
-            //ecs.deleteEntity(actor1.id);
+            
+            
         }
     }
 }
