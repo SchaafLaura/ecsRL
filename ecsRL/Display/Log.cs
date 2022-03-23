@@ -53,13 +53,8 @@ namespace ecsRL
             items.Add(new LogItem());
             items.Add(new LogItem());
             items.Add(new LogItem());
-            items.Add(new LogItem());
-            items.Add(new LogItem());
-            items.Add(new LogItem());
-            items.Add(new LogItem());
-            items.Add(new LogItem());
 
-            numberOfItems = 17;
+            numberOfItems = 12;
         }
 
         public ColoredString get(int i)

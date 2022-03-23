@@ -48,6 +48,8 @@ namespace ecsRL
                 logMessage.SetBackground(surface.Surface.GetBackground(0,0));
                 int x = 3;
                 int y = (log.numberOfItems - 1 - i) * 2 + 3;
+
+                if(!(x >= surface.Surface.Width || y >= surface.Surface.Height))  
                 surface.Surface.Print(
                     x, 
                     y, 
@@ -57,6 +59,8 @@ namespace ecsRL
                         Color.Transparent));
 
                 surface.Surface.Print(x + 2, y, logMessage);
+
+
             }
         }
 
