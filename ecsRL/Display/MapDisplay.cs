@@ -28,6 +28,15 @@ namespace ecsRL
             init();
             
         }
+        public MapDisplay(Map map, int viewWidth, int viewHeight, Point screenPosition)
+        {
+            this.map = map;
+            this.viewWidth = viewWidth;
+            this.viewHeight = viewHeight;
+            surface = new ScreenSurface(viewWidth, viewHeight);
+            surface.Position = screenPosition;
+            init();
+        }
 
         public Point gameCoordsToScreenCoords(Point gameCoords)
         {
@@ -39,13 +48,7 @@ namespace ecsRL
             return new Point(screenCoords.X + (mapViewPosition.X - viewWidth/2) , screenCoords.Y + (mapViewPosition.Y - viewHeight / 2));
         }
 
-        public MapDisplay(Map map, int viewWidth, int viewHeight, Point screenPosition)
-        {
-            this.map = map;
-            surface = new ScreenSurface(viewWidth, viewHeight);
-            surface.Position = screenPosition;
-            init();
-        }
+        
 
         public void centerOnEntity(Entity entity)
         {

@@ -6,10 +6,13 @@ namespace ecsRL
     public class Program
     {
         public static ECS ecs;
+        public static Map map;
         public static RootScreen rootScreen;
         
         public const int SCREEN_WIDTH = 160;
         public const int SCREEN_HEIGHT = 85;
+        public const int MAP_WIDTH = 1000;
+        public const int MAP_HEIGHT = 1000;
 
         public static Color uiColor = Color.Turquoise;
 
@@ -23,6 +26,40 @@ namespace ecsRL
         }
 
         private static void Init()
+        {
+            // initialize ECS
+            initECS();
+
+            // initialize Map
+            initMap();
+
+            // initialize Root Screen and it's children
+            initScreen();
+        }
+
+        private static void initMap()
+        {
+            map = new Map(MAP_WIDTH, MAP_HEIGHT);
+        }
+
+        private static void initScreen()
+        {
+            MapDisplay mapDisplay = new MapDisplay(map, SCREEN_WIDTH - 41, SCREEN_HEIGHT - 2, new Point(1, 1));
+            mapDisplay.centerOnEntity(ecs.getEntity(0));
+
+            LogDisplay logDisplay = new LogDisplay(38, SCREEN_HEIGHT / 2 - 1, new Point(SCREEN_WIDTH - 39, 1));
+
+            ScreenSurface playerInfoDisplay = new ScreenSurface(38, SCREEN_HEIGHT / 2 - 1);
+            playerInfoDisplay.Position = new Point(SCREEN_WIDTH - 40 + 1, SCREEN_HEIGHT / 2 + 1);
+            playerInfoDisplay.Surface.Fill(Color.Transparent, Color.Brown);
+
+            rootScreen = new RootScreen(mapDisplay, logDisplay, playerInfoDisplay);
+
+            Game.Instance.Screen = rootScreen;
+            Game.Instance.DestroyDefaultStartingConsole();
+        }
+
+        private static void initECS()
         {
             ecs = new ECS();
 
@@ -45,10 +82,6 @@ namespace ecsRL
                 new RenderComponent(
                     new ColoredGlyph(Color.Turquoise, Color.Transparent, '@')),
                 new AIComponent());
-
-            rootScreen = new RootScreen();
-            Game.Instance.Screen = rootScreen;
-            Game.Instance.DestroyDefaultStartingConsole();
         }
     }
 }

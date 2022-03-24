@@ -7,8 +7,8 @@ namespace ecsRL
 {
     public class RootScreen : ScreenObject
     {
-        private LogDisplay _logDisplay;
-        private MapDisplay _mapDisplay;
+        public LogDisplay _logDisplay;
+        public MapDisplay _mapDisplay;
 
         //private ScreenSurface mapDisplay;
         private ScreenSurface playerInfoDisplay;
@@ -22,32 +22,15 @@ namespace ecsRL
         public static int playerInfoDisplayWidth = 40 - 2;
         public static int playerInfoDisplayHeight = Program.SCREEN_HEIGHT / 2 - 1;
 
-        public RootScreen()
+        public RootScreen(MapDisplay mapDisplay, LogDisplay logDisplay, ScreenSurface playerInfoDisplay)
         {
-            playerInfoDisplay = new ScreenSurface(playerInfoDisplayWidth, playerInfoDisplayHeight);
-            playerInfoDisplay.Position = new Point(mapDisplayWidth + 2, logDisplayHeight + 2);
-            playerInfoDisplay.Surface.Fill(Color.Transparent, Color.Brown);
+            this._mapDisplay = mapDisplay;
+            this._logDisplay = logDisplay;
+            this.playerInfoDisplay = playerInfoDisplay;
+
             Children.Add(playerInfoDisplay);
-
-
-            _logDisplay = new LogDisplay(
-                logDisplayWidth, 
-                logDisplayHeight, 
-                new Point(mapDisplayWidth + 2, 1));
             Children.Add(_logDisplay);
-
-            _mapDisplay = new MapDisplay(
-                1000, 
-                1000, 
-                mapDisplayWidth, 
-                mapDisplayHeight, 
-                new Point(0, 0), 
-                new Point(1, 1));
-            _mapDisplay.centerOnEntity(Program.ecs.getEntity(0));
-            
             Children.Add(_mapDisplay);
-
-
         }
 
         public void drawGlyphOnMap(int x, int y, ColoredGlyph glyph)
