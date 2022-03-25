@@ -9,28 +9,17 @@ namespace ecsRL
     {
         public LogDisplay _logDisplay;
         public MapDisplay _mapDisplay;
+        public InfoDisplay _infoDisplay;
 
-        //private ScreenSurface mapDisplay;
-        private ScreenSurface playerInfoDisplay;
-
-        public static int mapDisplayWidth = Program.SCREEN_WIDTH - 40 - 1;
-        public static int mapDisplayHeight = Program.SCREEN_HEIGHT - 2;
-
-        public static int logDisplayWidth = 40 - 2;
-        public static int logDisplayHeight = Program.SCREEN_HEIGHT / 2 - 1;
-
-        public static int playerInfoDisplayWidth = 40 - 2;
-        public static int playerInfoDisplayHeight = Program.SCREEN_HEIGHT / 2 - 1;
-
-        public RootScreen(MapDisplay mapDisplay, LogDisplay logDisplay, ScreenSurface playerInfoDisplay)
+        public RootScreen(MapDisplay mapDisplay, LogDisplay logDisplay, InfoDisplay infoDisplay)
         {
             this._mapDisplay = mapDisplay;
             this._logDisplay = logDisplay;
-            this.playerInfoDisplay = playerInfoDisplay;
+            this._infoDisplay = infoDisplay;
 
-            Children.Add(playerInfoDisplay);
             Children.Add(_logDisplay);
             Children.Add(_mapDisplay);
+            Children.Add(_infoDisplay);
         }
 
         public void drawGlyphOnMap(int x, int y, ColoredGlyph glyph)
@@ -40,6 +29,23 @@ namespace ecsRL
 
         public override void Update(TimeSpan delta)
         {
+            Point mouseLocation = Game.Instance.Mouse.ScreenPosition.PixelLocationToSurface(12, 12);
+            
+
+            if(mouseLocation.X > _mapDisplay.Position.X &&
+                mouseLocation.X < _mapDisplay.Position.X + _mapDisplay.viewWidth &&
+                mouseLocation.Y > _mapDisplay.Position.Y &&
+                mouseLocation.Y < _mapDisplay.Position.Y + _mapDisplay.viewHeight)
+            {
+                Point point = new Point(mouseLocation.X - 2, mouseLocation.Y - 2);
+                _infoDisplay.infoLocation = point;
+            }
+            else
+            {
+                _infoDisplay.infoLocation = new Point(-1, -1);
+
+            }
+
             base.Update(delta);
             Program.ecs.updateSystems();
         }

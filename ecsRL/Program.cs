@@ -40,6 +40,12 @@ namespace ecsRL
         private static void initMap()
         {
             map = new Map(MAP_WIDTH, MAP_HEIGHT);
+
+            Entity e0 = ecs.getEntity(0);
+            Entity e1 = ecs.getEntity(1);
+
+            map.entities.Add(e0, e0.position.X, e0.position.Y);
+            map.entities.Add(e1, e1.position.X, e1.position.Y);
         }
 
         private static void initScreen()
@@ -49,11 +55,15 @@ namespace ecsRL
 
             LogDisplay logDisplay = new LogDisplay(38, SCREEN_HEIGHT / 2 - 1, new Point(SCREEN_WIDTH - 39, 1));
 
+            InfoDisplay infoDisplay = new InfoDisplay(38, SCREEN_HEIGHT / 2 - 1, new Point(SCREEN_WIDTH - 40 + 1, SCREEN_HEIGHT / 2 + 1));
+
+
             ScreenSurface playerInfoDisplay = new ScreenSurface(38, SCREEN_HEIGHT / 2 - 1);
             playerInfoDisplay.Position = new Point(SCREEN_WIDTH - 40 + 1, SCREEN_HEIGHT / 2 + 1);
             playerInfoDisplay.Surface.Fill(Color.Transparent, Color.Brown);
 
-            rootScreen = new RootScreen(mapDisplay, logDisplay, playerInfoDisplay);
+            rootScreen = new RootScreen(mapDisplay, logDisplay, infoDisplay);
+            rootScreen.UseMouse = true;
 
             Game.Instance.Screen = rootScreen;
             Game.Instance.DestroyDefaultStartingConsole();
@@ -82,6 +92,7 @@ namespace ecsRL
                 new RenderComponent(
                     new ColoredGlyph(Color.Turquoise, Color.Transparent, '@')),
                 new AIComponent());
+
         }
     }
 }

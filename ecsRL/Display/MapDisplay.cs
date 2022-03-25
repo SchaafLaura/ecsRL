@@ -12,10 +12,10 @@ namespace ecsRL
     public class MapDisplay : ScreenObject
     {
         public Map map;
-        ScreenSurface surface;
+        public ScreenSurface surface;
         Point mapViewPosition;
-        int viewWidth;
-        int viewHeight;
+        public int viewWidth;
+        public int viewHeight;
 
         public MapDisplay(int mapWidth, int mapHeight, int viewWidth, int viewHeight, Point mapViewPosition, Point screenPosition)
         {
