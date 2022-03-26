@@ -48,18 +48,24 @@ namespace ecsRL
         private void display()
         {
             Rectangle rectangle = new Rectangle(1, 1, surface.Surface.Width - 2, surface.Surface.Height - 2);
-            surface.Surface.Fill(rectangle, Color.Transparent, Color.Transparent);
+            surface.Surface.Fill(rectangle, Color.Black, Color.Black, ' ');
+            //surface.Surface.DrawBox(rectangle, new ColoredGlyph(Color.Black, Color.Black, ' '), new ColoredGlyph(Color.Black, Color.Black, ' '));
 
             Point gameCoords = Program.rootScreen._mapDisplay.screenCoordsToGameCoords(infoLocation);
             var entities = Program.map.entities.GetItems(gameCoords.X, gameCoords.Y);
-            surface.Surface.Print(1, 3, gameCoords.ToString(), Color.White);
-            surface.Surface.Print(1, 5, new ColoredString(Program.map.tiles[gameCoords.X, gameCoords.Y].glyph));
 
-            surface.Surface.Print(1, 7, entities.Count().ToString(), Color.White);
-            if(entities.Count() != 0)
+
+            if(infoLocation.X != -1)
             {
-                surface.Surface.Print(1, 9, entities.First().name, Color.White);
-            }   
+                surface.Surface.Print(1, 3, new ColoredString("Coordinates: ") + new ColoredString(gameCoords.ToString()));
+                surface.Surface.Print(1, 5, new ColoredString("Tile: ") + new ColoredString(Program.map.tiles[gameCoords.X, gameCoords.Y].glyph));
+
+                surface.Surface.Print(1, 7, new ColoredString("Entity Count: ") + new ColoredString(entities.Count().ToString()));
+                if(entities.Count() != 0)
+                {
+                    surface.Surface.Print(1, 9, entities.First().name, Color.White);
+                }
+            }
             
         }
 
