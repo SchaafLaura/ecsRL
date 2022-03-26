@@ -29,6 +29,8 @@ namespace ecsRL
                                     new Gradient(colors, colorStops),
                                     (x, y, color) => surface.Surface[x, y].Foreground = color);
 
+            
+
             surface.Surface.DrawBox(
                 surface.Surface.Area,
                 ShapeParameters.CreateStyledBox(
