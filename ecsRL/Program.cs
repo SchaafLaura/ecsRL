@@ -5,6 +5,7 @@ namespace ecsRL
 {
     public class Program
     {
+        public static Player player;
         public static ECS ecs;
         public static Map map;
         public static RootScreen rootScreen;
@@ -78,7 +79,7 @@ namespace ecsRL
                 name = "Matrix"
             };
 
-            Player Laura = new Player
+            player = new Player
             {
                 position = new Point(523, 507),
                 name = "Laura"
@@ -90,7 +91,7 @@ namespace ecsRL
                 name = "Lisa"
             };
 
-            ecs.addEntity(Laura,
+            ecs.addEntity(player,
                 new AIComponent(),
                 new RenderComponent(
                     new ColoredGlyph(Color.HotPink, Color.Transparent, '@')));

@@ -8,6 +8,10 @@ namespace ecsRL
 {
     public class Player : Actor
     {
-
+        public Action nextAction;
+        public override Action getAction()
+        {
+            return nextAction;
+        }
     }
 }

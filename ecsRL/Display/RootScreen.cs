@@ -10,6 +10,7 @@ namespace ecsRL
         public LogDisplay _logDisplay;
         public MapDisplay _mapDisplay;
         public InfoDisplay _infoDisplay;
+        private uint _currentActor = 0;
 
         public RootScreen(MapDisplay mapDisplay, LogDisplay logDisplay, InfoDisplay infoDisplay)
         {
@@ -27,10 +28,11 @@ namespace ecsRL
             _mapDisplay.drawGlyph(x, y, glyph);
         }
 
+
         private void gameLoop()
         {
             /*
-            var action = actors[_currentActor].getAction();
+            var action = Program.ecs.getEntity(_currentActor).getAction();
             if(action == null) return;
 
             while(true)
@@ -70,7 +72,14 @@ namespace ecsRL
 
         public override bool ProcessKeyboard(Keyboard keyboard)
         {
-            base.Update(new TimeSpan(0));
+            MovementAction movementAction = new MovementAction(Program.player.ID);
+
+            if(keyboard.IsKeyDown(Keys.Up)) movementAction.direction = MovementAction.N;
+            else if(keyboard.IsKeyDown(Keys.Down)) movementAction.direction = MovementAction.S;
+            else if(keyboard.IsKeyDown(Keys.Right)) movementAction.direction = MovementAction.E;
+            else if(keyboard.IsKeyDown(Keys.Left)) movementAction.direction = MovementAction.W;
+
+            Program.player.nextAction = movementAction;
             return base.ProcessKeyboard(keyboard);
         }
 

@@ -1,6 +1,12 @@
 ﻿namespace ecsRL
 {
-    public class Action
+    public abstract class Action
     {
+        public Action(uint performedByID)
+        {
+            this.performedByID = performedByID;
+        }
+        public uint performedByID;
+        public abstract ActionResult perform();
     }
 }

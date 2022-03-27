@@ -18,5 +18,7 @@ namespace ecsRL
         {
             return currentEnergy >= 100;
         }
+
+        public abstract Action getAction();
     }
 }

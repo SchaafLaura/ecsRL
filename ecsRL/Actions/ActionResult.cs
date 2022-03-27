@@ -1,4 +1,4 @@
-﻿namespace ecsRL.Actions
+﻿namespace ecsRL
 {
     public class ActionResult
     {
