@@ -21,6 +21,8 @@ namespace ecsRL
             initSystems();
         }
 
+        public IEnumerable<Entity> Entities { get { return entities.Values; } }
+
         private void initSystems()
         {
             systems = new SystemBase[Enum.GetValues(typeof(ComponentID)).Length];

@@ -27,10 +27,29 @@ namespace ecsRL
             _mapDisplay.drawGlyph(x, y, glyph);
         }
 
+        private void gameLoop()
+        {
+            /*
+            var action = actors[_currentActor].getAction();
+            if(action == null) return;
+
+            while(true)
+            {
+                var result = action.perform();
+                if(!result.succeeded) return;
+                if(result.alternate == null) break;
+                action = result.alternate;
+            }
+            
+            _currentActor = (_currentActor + 1) % actors.length;
+            */
+        }
+
         public override void Update(TimeSpan delta)
         {
+            gameLoop();
+
             Point mouseLocation = Game.Instance.Mouse.ScreenPosition.PixelLocationToSurface(12, 12);
-            
 
             if(mouseLocation.X > _mapDisplay.Position.X &&
                 mouseLocation.X < _mapDisplay.Position.X + _mapDisplay.viewWidth &&
@@ -43,7 +62,6 @@ namespace ecsRL
             else
             {
                 _infoDisplay.infoLocation = new Point(-1, -1);
-
             }
 
             base.Update(delta);

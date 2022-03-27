@@ -41,11 +41,10 @@ namespace ecsRL
         {
             map = new Map(MAP_WIDTH, MAP_HEIGHT);
 
-            Entity e0 = ecs.getEntity(0);
-            Entity e1 = ecs.getEntity(1);
-
-            map.entities.Add(e0, e0.position.X, e0.position.Y);
-            map.entities.Add(e1, e1.position.X, e1.position.Y);
+            foreach(Entity entity in ecs.Entities)
+            {
+                map.entities.Add(entity, entity.position.X, entity.position.Y);
+            }
         }
 
         private static void initScreen()
@@ -73,12 +72,19 @@ namespace ecsRL
         {
             ecs = new ECS();
 
-            Entity Laura = new Entity
+            Creature cat = new Creature
+            {
+                position = new Point(525, 508),
+                name = "Matrix"
+            };
+
+            Player Laura = new Player
             {
                 position = new Point(523, 507),
                 name = "Laura"
             };
-            Entity Lisa = new Entity
+
+            Creature Lisa = new Creature
             {
                 position = new Point(522, 507),
                 name = "Lisa"
@@ -92,6 +98,9 @@ namespace ecsRL
                 new RenderComponent(
                     new ColoredGlyph(Color.Turquoise, Color.Transparent, '@')),
                 new AIComponent());
+            ecs.addEntity(cat,
+                new RenderComponent(
+                    new ColoredGlyph(Color.DarkGoldenrod, Color.Transparent, 'c')));
 
         }
     }
