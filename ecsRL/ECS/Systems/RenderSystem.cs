@@ -23,7 +23,6 @@ namespace ecsRL
 
                 Program.rootScreen.drawGlyphOnMap(position.X, position.Y, G);
             }
-
         }
     }
 }

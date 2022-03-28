@@ -31,6 +31,13 @@ namespace ecsRL
             {
                 ret.direction = MovementAction.W;
             }
+            // if out of bounds, choose another direction
+            if(position.X + ret.direction.X < 0 ||
+                position.Y + ret.direction.Y < 0 ||
+                position.X + ret.direction.X >= Program.MAP_WIDTH ||
+                position.Y + ret.direction.Y >= Program.MAP_HEIGHT)
+                return getAction();
+
             return ret;
         }
     }

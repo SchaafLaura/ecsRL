@@ -8,5 +8,7 @@
         }
         public uint performedByID;
         public abstract ActionResult perform();
+
+        public abstract int Cost { get;}
     }
 }

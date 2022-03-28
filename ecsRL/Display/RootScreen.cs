@@ -32,30 +32,32 @@ namespace ecsRL
 
         private void gameLoop()
         {
-            var action = currentActor.getAction();
+            currentActor.gainEnergy();
 
-            if(action == null) return;
-
-            while(true)
+            if(currentActor.hasEnoughEnergy())
             {
-                var result = action.perform();
-                if(!result.succeeded) return;
-                if(result.alternative == null) break;
-                action = result.alternative;
-            }
+                var action = currentActor.getAction();
 
-            Program.player.nextAction = null;
+                if(action == null) return;
+
+                while(true)
+                {
+                    var result = action.perform();
+                    if(!result.succeeded) return;
+                    if(result.alternative == null) break;
+                    action = result.alternative;
+                }
+            }
 
             _currentActor = (_currentActor + 1) % Program.ecs.NumberOfActors;
             while((currentActor = Program.ecs.getActor(_currentActor)) == null)
                 _currentActor = (_currentActor + 1) % Program.ecs.NumberOfActors;
+            if(_currentActor != 0)
+                gameLoop();
         }
 
         public override void Update(TimeSpan delta)
         {
-            gameLoop();
-            _mapDisplay.centerOnEntity(Program.ecs.getActor(0));
-
             Point mouseLocation = Game.Instance.Mouse.ScreenPosition.PixelLocationToSurface(12, 12);
 
             if(mouseLocation.X > _mapDisplay.Position.X &&
@@ -71,27 +73,29 @@ namespace ecsRL
                 _infoDisplay.infoLocation = new Point(-1, -1);
             }
 
-            base.Update(delta);
-            Program.ecs.updateSystems();
-
             if(Game.Instance.Keyboard.HasKeysDown)
-            {
                 ProcessKeyboard(Game.Instance.Keyboard);
-            }
+
+            gameLoop();
+            _mapDisplay.centerOnEntity(Program.ecs.getActor(0));
+            base.Update(new TimeSpan(0));
+            Program.ecs.updateSystems();
 
         }
 
         public override bool ProcessKeyboard(Keyboard keyboard)
         {
-            Program.log.log(new ColoredString("key was pressed"));
-            MovementAction movementAction = new MovementAction(Program.player.ID);
+            if(keyboard.HasKeysPressed && Program.player.actions.Count == 0)
+            {
+                MovementAction movementAction = new MovementAction(Program.player.ID);
 
-            if(keyboard.IsKeyDown(Keys.Up)) movementAction.direction = MovementAction.N;
-            else if(keyboard.IsKeyDown(Keys.Down)) movementAction.direction = MovementAction.S;
-            else if(keyboard.IsKeyDown(Keys.Right)) movementAction.direction = MovementAction.E;
-            else if(keyboard.IsKeyDown(Keys.Left)) movementAction.direction = MovementAction.W;
+                if(keyboard.IsKeyPressed(Keys.Up)) movementAction.direction = MovementAction.N;
+                else if(keyboard.IsKeyPressed(Keys.Down)) movementAction.direction = MovementAction.S;
+                else if(keyboard.IsKeyPressed(Keys.Right)) movementAction.direction = MovementAction.E;
+                else if(keyboard.IsKeyPressed(Keys.Left)) movementAction.direction = MovementAction.W;
 
-            Program.player.nextAction = movementAction;
+                Program.player.actions.Push(movementAction);
+            }
             return base.ProcessKeyboard(keyboard);
         }
 

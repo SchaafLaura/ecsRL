@@ -93,18 +93,22 @@ namespace ecsRL
         public void drawGlyph(int x, int y, ColoredGlyph glyph)
         {
             Point screenPos = gameCoordsToScreenCoords(new Point(x, y));
-            surface.Surface.SetGlyph(screenPos.X + 1, screenPos.Y + 1, glyph);
+            if(screenPos.X < 0 || screenPos.Y < 0 || screenPos.X > viewWidth - 3 || screenPos.Y > viewHeight - 3)
+                return;
+            //surface.Surface.SetGlyph(screenPos.X + 1, screenPos.Y + 1, glyph);
+            surface.Surface.SetCellAppearance(screenPos.X + 1, screenPos.Y + 1, glyph);
         }
 
         private void displayTiles()
         {
-            for(int i = 1; i < viewWidth - 2; i++)
+            for(int i = 0; i < viewWidth - 2; i++)
             {
-                for(int j = 1; j < viewHeight - 2; j++)
+                for(int j = 0; j < viewHeight - 2; j++)
                 {
                     Point gamePos = screenCoordsToGameCoords(new Point(i, j));
                     Tile tile = map.tiles[gamePos.X, gamePos.Y];
-                    surface.Surface.SetGlyph(i+1, j+ 1, tile.glyph);
+                    //surface.Surface.SetGlyph(i+1, j+ 1, tile.glyph);
+                    surface.Surface.SetCellAppearance(i + 1, j + 1, tile.glyph);
                 }
             }
         }

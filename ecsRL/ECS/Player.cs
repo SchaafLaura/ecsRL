@@ -8,10 +8,10 @@ namespace ecsRL
 {
     public class Player : Actor
     {
-        public Action nextAction;
+        public Stack<Action> actions = new Stack<Action>();
         public override Action getAction()
-        {
-            return nextAction;
+        {   
+            return actions.Count == 0 ? null : actions.Pop();
         }
     }
 }

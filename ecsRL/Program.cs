@@ -1,5 +1,6 @@
 ﻿using SadConsole;
 using SadRogue.Primitives;
+using System;
 
 namespace ecsRL
 {
@@ -44,9 +45,7 @@ namespace ecsRL
             map = new Map(MAP_WIDTH, MAP_HEIGHT);
 
             foreach(Actor actor in ecs.Actors)
-            {
                 map.actors.Add(actor, actor.position.X, actor.position.Y);
-            }
         }
 
         private static void initScreen()
@@ -59,13 +58,7 @@ namespace ecsRL
 
             InfoDisplay infoDisplay = new InfoDisplay(38, SCREEN_HEIGHT / 2 - 1, new Point(SCREEN_WIDTH - 40 + 1, SCREEN_HEIGHT / 2 + 1));
 
-
-            ScreenSurface playerInfoDisplay = new ScreenSurface(38, SCREEN_HEIGHT / 2 - 1);
-            playerInfoDisplay.Position = new Point(SCREEN_WIDTH - 40 + 1, SCREEN_HEIGHT / 2 + 1);
-            playerInfoDisplay.Surface.Fill(Color.Transparent, Color.Brown);
-
             rootScreen = new RootScreen(mapDisplay, logDisplay, infoDisplay);
-            rootScreen.UseMouse = true;
 
             Game.Instance.Screen = rootScreen;
             Game.Instance.DestroyDefaultStartingConsole();
@@ -78,32 +71,55 @@ namespace ecsRL
             Creature cat = new Creature
             {
                 position = new Point(525, 508),
-                name = "Matrix"
+                name = "Matrix",
+                speed = 100
             };
 
             player = new Player
             {
                 position = new Point(523, 507),
-                name = "Laura"
+                name = "Laura",
+                speed = 50
             };
 
             Creature Lisa = new Creature
             {
                 position = new Point(522, 507),
-                name = "Lisa"
+                name = "Lisa",
+                speed = 25
             };
 
             ecs.addActor(player,
                 new AIComponent(),
                 new RenderComponent(
                     new ColoredGlyph(Color.HotPink, Color.Transparent, '@')));
+
             ecs.addActor(Lisa,
                 new RenderComponent(
                     new ColoredGlyph(Color.Turquoise, Color.Transparent, '@')),
                 new AIComponent());
+
             ecs.addActor(cat,
                 new RenderComponent(
                     new ColoredGlyph(Color.DarkGoldenrod, Color.Transparent, 'c')));
+
+            
+            for(int i = 0; i < 5000; i++)
+            {
+                Random rng = new Random();
+                Creature creature = new Creature
+                {
+                    position = new Point(rng.Next(0, 1000), rng.Next(0, 1000)),
+                    name = "randomCreature " + i,
+                    speed = rng.Next(20, 70),
+                    currentEnergy = rng.Next(0, 100)
+                };
+
+                ecs.addActor(creature, 
+                    new RenderComponent(
+                        new ColoredGlyph(Color.DarkGoldenrod, Color.Transparent, 'C')));
+            }
+            
 
         }
     }

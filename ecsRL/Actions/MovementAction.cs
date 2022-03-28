@@ -21,6 +21,13 @@ namespace ecsRL
 
         }
 
+        public override int Cost { 
+            get
+            {
+                return 100;
+            }
+        }
+
         public override ActionResult perform()
         {
             Actor actor = Program.ecs.getActor(performedByID);
@@ -28,8 +35,10 @@ namespace ecsRL
 
             if(Program.map.tiles[point.X, point.Y].isPassable)
             {
+                // TODO: check if there is another actor and construct alternative attack action
                 Program.map.moveActorToPoint(actor, point);
                 actor.position = point;
+                actor.currentEnergy -= Cost;
                 return ActionResult.success;
             }
             else

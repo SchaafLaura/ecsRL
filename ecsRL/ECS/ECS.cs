@@ -25,8 +25,6 @@ namespace ecsRL
             initSystems();
         }
 
-        
-
         private void initSystems()
         {
             systems = new SystemBase[Enum.GetValues(typeof(ComponentID)).Length];
@@ -74,8 +72,9 @@ namespace ecsRL
             }
             else
             {
-                id = runningID++;
-                freeIDs.Push(runningID);
+                id = runningID;
+                freeIDs.Push(++runningID);
+                runningID++;
             }
 
             E.ID = id;
