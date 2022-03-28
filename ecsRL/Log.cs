@@ -57,6 +57,12 @@ namespace ecsRL
             numberOfItems = 12;
         }
 
+        public void log(ColoredString message)
+        {
+            items.Add(new LogItem(message));
+            numberOfItems++;
+        }
+
         public ColoredString get(int i)
         {
             return items[i].toColoredString();

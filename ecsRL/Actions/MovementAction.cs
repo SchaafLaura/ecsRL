@@ -23,10 +23,13 @@ namespace ecsRL
 
         public override ActionResult perform()
         {
-            Entity entity = Program.ecs.getEntity(performedByID);
-            Point point = entity.position + direction;
+            Actor actor = Program.ecs.getActor(performedByID);
+            Point point = actor.position + direction;
+
             if(Program.map.tiles[point.X, point.Y].isPassable)
             {
+                Program.map.moveActorToPoint(actor, point);
+                actor.position = point;
                 return ActionResult.success;
             }
             else

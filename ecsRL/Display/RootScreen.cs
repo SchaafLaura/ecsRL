@@ -10,7 +10,8 @@ namespace ecsRL
         public LogDisplay _logDisplay;
         public MapDisplay _mapDisplay;
         public InfoDisplay _infoDisplay;
-        private uint _currentActor = 0;
+        private static uint _currentActor = 0;
+        private static Actor currentActor = Program.ecs.getActor(_currentActor);
 
         public RootScreen(MapDisplay mapDisplay, LogDisplay logDisplay, InfoDisplay infoDisplay)
         {
@@ -31,25 +32,29 @@ namespace ecsRL
 
         private void gameLoop()
         {
-            /*
-            var action = Program.ecs.getEntity(_currentActor).getAction();
+            var action = currentActor.getAction();
+
             if(action == null) return;
 
             while(true)
             {
                 var result = action.perform();
                 if(!result.succeeded) return;
-                if(result.alternate == null) break;
-                action = result.alternate;
+                if(result.alternative == null) break;
+                action = result.alternative;
             }
-            
-            _currentActor = (_currentActor + 1) % actors.length;
-            */
+
+            Program.player.nextAction = null;
+
+            _currentActor = (_currentActor + 1) % Program.ecs.NumberOfActors;
+            while((currentActor = Program.ecs.getActor(_currentActor)) == null)
+                _currentActor = (_currentActor + 1) % Program.ecs.NumberOfActors;
         }
 
         public override void Update(TimeSpan delta)
         {
             gameLoop();
+            _mapDisplay.centerOnEntity(Program.ecs.getActor(0));
 
             Point mouseLocation = Game.Instance.Mouse.ScreenPosition.PixelLocationToSurface(12, 12);
 
@@ -68,10 +73,17 @@ namespace ecsRL
 
             base.Update(delta);
             Program.ecs.updateSystems();
+
+            if(Game.Instance.Keyboard.HasKeysDown)
+            {
+                ProcessKeyboard(Game.Instance.Keyboard);
+            }
+
         }
 
         public override bool ProcessKeyboard(Keyboard keyboard)
         {
+            Program.log.log(new ColoredString("key was pressed"));
             MovementAction movementAction = new MovementAction(Program.player.ID);
 
             if(keyboard.IsKeyDown(Keys.Up)) movementAction.direction = MovementAction.N;

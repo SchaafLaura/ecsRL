@@ -19,7 +19,7 @@ namespace ecsRL
                 RenderComponent component =  components[i];
 
                 ColoredGlyph G = component.glyph;
-                Point position = Program.ecs.getEntity(component.attachedToID).position;
+                Point position = Program.ecs.getActor(component.attachedToID).position;
 
                 Program.rootScreen.drawGlyphOnMap(position.X, position.Y, G);
             }

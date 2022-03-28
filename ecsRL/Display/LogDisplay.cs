@@ -9,9 +9,9 @@ namespace ecsRL
         Log log;
         ScreenSurface surface;
 
-        public LogDisplay(int width, int height, Point position)
+        public LogDisplay(Log log, int width, int height, Point position)
         {
-            log = new Log();
+            this.log = log;
             surface = new ScreenSurface(width, height);
             surface.Position = position;
 
@@ -42,6 +42,9 @@ namespace ecsRL
 
         public void display()
         {
+            Rectangle rectangle = new Rectangle(5, 1, surface.Surface.Width - 7, surface.Surface.Height - 2);
+            surface.Surface.Fill(rectangle, Color.Black, Color.Black, ' ');
+
             for(int i = log.numberOfItems - 1; i >= 0 ; i--)
             {
                 ColoredString logMessage = log.get(i);

@@ -8,6 +8,7 @@ namespace ecsRL
         public static Player player;
         public static ECS ecs;
         public static Map map;
+        public static Log log;
         public static RootScreen rootScreen;
         
         public const int SCREEN_WIDTH = 160;
@@ -42,18 +43,19 @@ namespace ecsRL
         {
             map = new Map(MAP_WIDTH, MAP_HEIGHT);
 
-            foreach(Entity entity in ecs.Entities)
+            foreach(Actor actor in ecs.Actors)
             {
-                map.entities.Add(entity, entity.position.X, entity.position.Y);
+                map.actors.Add(actor, actor.position.X, actor.position.Y);
             }
         }
 
         private static void initScreen()
         {
             MapDisplay mapDisplay = new MapDisplay(map, SCREEN_WIDTH - 41, SCREEN_HEIGHT - 2, new Point(1, 1));
-            mapDisplay.centerOnEntity(ecs.getEntity(0));
+            mapDisplay.centerOnEntity(ecs.getActor(0));
 
-            LogDisplay logDisplay = new LogDisplay(38, SCREEN_HEIGHT / 2 - 1, new Point(SCREEN_WIDTH - 39, 1));
+            log = new Log();
+            LogDisplay logDisplay = new LogDisplay(log, 38, SCREEN_HEIGHT / 2 - 1, new Point(SCREEN_WIDTH - 39, 1));
 
             InfoDisplay infoDisplay = new InfoDisplay(38, SCREEN_HEIGHT / 2 - 1, new Point(SCREEN_WIDTH - 40 + 1, SCREEN_HEIGHT / 2 + 1));
 
@@ -91,15 +93,15 @@ namespace ecsRL
                 name = "Lisa"
             };
 
-            ecs.addEntity(player,
+            ecs.addActor(player,
                 new AIComponent(),
                 new RenderComponent(
                     new ColoredGlyph(Color.HotPink, Color.Transparent, '@')));
-            ecs.addEntity(Lisa,
+            ecs.addActor(Lisa,
                 new RenderComponent(
                     new ColoredGlyph(Color.Turquoise, Color.Transparent, '@')),
                 new AIComponent());
-            ecs.addEntity(cat,
+            ecs.addActor(cat,
                 new RenderComponent(
                     new ColoredGlyph(Color.DarkGoldenrod, Color.Transparent, 'c')));
 

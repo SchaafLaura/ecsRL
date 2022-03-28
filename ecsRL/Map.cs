@@ -23,7 +23,7 @@ namespace ecsRL
 
     public class Map
     {
-        public SpatialMap<Entity> entities;
+        public SpatialMap<Actor> actors;
         public MultiSpatialMap<Entity> items;
         public Tile[,] tiles;
         public int width;
@@ -33,10 +33,15 @@ namespace ecsRL
         {
             this.width = width;
             this.height = height;
-            entities = new SpatialMap<Entity>();
+            actors = new SpatialMap<Actor>();
             items = new MultiSpatialMap<Entity>();
             tiles = new Tile[width, height];
             init();
+        }
+
+        public void moveActorToPoint(Actor actor, Point point)
+        {
+            actors.Move(actor, new Coord(point.X, point.Y));
         }
 
         public void init()

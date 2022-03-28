@@ -2,8 +2,8 @@
 {
     public class ActionResult
     {
-        Action alternative;
-        bool succeeded;
+        public Action alternative;
+        public bool succeeded;
 
         public static ActionResult success = new ActionResult(true);
         public static ActionResult failure = new ActionResult(false);

@@ -54,7 +54,7 @@ namespace ecsRL
             //surface.Surface.DrawBox(rectangle, new ColoredGlyph(Color.Black, Color.Black, ' '), new ColoredGlyph(Color.Black, Color.Black, ' '));
 
             Point gameCoords = Program.rootScreen._mapDisplay.screenCoordsToGameCoords(infoLocation);
-            var entities = Program.map.entities.GetItems(gameCoords.X, gameCoords.Y);
+            var entities = Program.map.actors.GetItems(gameCoords.X, gameCoords.Y);
 
 
             if(infoLocation.X != -1)

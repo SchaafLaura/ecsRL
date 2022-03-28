@@ -5,23 +5,27 @@ namespace ecsRL
 {
     public class ECS
     {
-        Dictionary<uint, Entity> entities;
+        Dictionary<uint, Actor> actors;
         SystemBase[] systems;
 
         static Stack<uint> freeIDs;
         static uint runningID = 0;
+
+        public uint NumberOfActors{ get{ return (uint) actors.Count;} }
+        public IEnumerable<Actor> Actors { get { return actors.Values; } }
+
 
         public ECS()
         {
             freeIDs = new Stack<uint>();
             freeIDs.Push(runningID++);
 
-            entities = new Dictionary<uint, Entity>();
+            actors = new Dictionary<uint, Actor>();
 
             initSystems();
         }
 
-        public IEnumerable<Entity> Entities { get { return entities.Values; } }
+        
 
         private void initSystems()
         {
@@ -31,9 +35,9 @@ namespace ecsRL
             systems[(int) ComponentID.AI_COMPONENT] = new AISystem();
         }
 
-        public void deleteEntity(uint id)
+        public void deleteActor(uint id)
         {
-            entities.Remove(id); // maybe this is not needed? just push the id to the freeID stack
+            actors.Remove(id); // maybe this is not needed? just push the id to the freeID stack
 
             // this is needed however, because systems will try to update all components 
             // regardless of weather or not the entity exists
@@ -44,9 +48,9 @@ namespace ecsRL
             freeIDs.Push(id);
         }
 
-        public Entity getEntity(uint id)
+        public Actor getActor(uint id)
         {
-            return entities[id];
+            return actors.ContainsKey(id) ? actors[id] : null;
         }
 
         // adds components to an entity, that is already in the ecs
@@ -61,7 +65,7 @@ namespace ecsRL
             }
         }
 
-        public void addEntity(Entity E, params Component[] components)
+        public void addActor(Actor E, params Component[] components)
         {
             uint id;
             if(freeIDs.Count != 0)
@@ -75,7 +79,7 @@ namespace ecsRL
             }
 
             E.ID = id;
-            entities[id] = E;
+            actors[id] = E;
 
             foreach(Component component in components)
             {
