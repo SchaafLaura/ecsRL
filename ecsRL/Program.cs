@@ -59,6 +59,7 @@ namespace ecsRL
             InfoDisplay infoDisplay = new InfoDisplay(38, SCREEN_HEIGHT / 2 - 1, new Point(SCREEN_WIDTH - 40 + 1, SCREEN_HEIGHT / 2 + 1));
 
             rootScreen = new RootScreen(mapDisplay, logDisplay, infoDisplay);
+            //rootScreen.IsEnabled = false;
 
             Game.Instance.Screen = rootScreen;
             Game.Instance.DestroyDefaultStartingConsole();
@@ -86,7 +87,7 @@ namespace ecsRL
             {
                 position = new Point(522, 507),
                 name = "Lisa",
-                speed = 25
+                speed = 100
             };
 
             ecs.addActor(player,
@@ -104,15 +105,15 @@ namespace ecsRL
                     new ColoredGlyph(Color.DarkGoldenrod, Color.Transparent, 'c')));
 
             
-            for(int i = 0; i < 12500; i++)
+            for(int i = 0; i < 10000; i++)
             {
                 Random rng = new Random();
                 Creature creature = new Creature
                 {
                     position = new Point(rng.Next(0, 1000), rng.Next(0, 1000)),
                     name = "randomCreature " + i,
-                    speed = rng.Next(20, 70),
-                    currentEnergy = rng.Next(0, 100)
+                    speed = 100,
+                    currentEnergy = 100
                 };
 
                 ecs.addActor(creature, 

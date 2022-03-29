@@ -87,7 +87,7 @@ namespace ecsRL
         public void display()
         {
             displayTiles();
-            displayItems();
+            //displayItems();
         }
 
         public void drawGlyph(int x, int y, ColoredGlyph glyph)

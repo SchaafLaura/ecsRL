@@ -13,6 +13,7 @@ namespace ecsRL
         private static uint _currentActor = 0;
         private static Actor currentActor = Program.ecs.getActor(_currentActor);
         private static int recursionLimit = 5000;
+        private static int depth = 0;
 
         public RootScreen(MapDisplay mapDisplay, LogDisplay logDisplay, InfoDisplay infoDisplay)
         {
@@ -31,7 +32,7 @@ namespace ecsRL
         }
 
 
-        private void gameLoop(int iterationNumber)
+        private void gameLoop()
         {
             if(currentActor.hasEnoughEnergy())
             {
@@ -54,16 +55,16 @@ namespace ecsRL
 
             _currentActor = (_currentActor + 1) % Program.ecs.NumberOfActors;
             currentActor = Program.ecs.getActor(_currentActor);
-            
-            while((currentActor = Program.ecs.getActor(_currentActor)) == null)
-              _currentActor = (_currentActor + 1) % Program.ecs.NumberOfActors;
-    
-            if(_currentActor != 0 && iterationNumber < recursionLimit)
-                gameLoop(++iterationNumber);
 
+            while(currentActor == null)
+            {
+                _currentActor = (_currentActor + 1) % Program.ecs.NumberOfActors;
+                currentActor = Program.ecs.getActor(_currentActor);
+            }
+
+            if(++depth < recursionLimit)
+                gameLoop();
         }
-
-
 
         public override void Update(TimeSpan delta)
         {
@@ -81,16 +82,15 @@ namespace ecsRL
             {
                 _infoDisplay.infoLocation = new Point(-1, -1);
             }
-
+            
             if(Game.Instance.Keyboard.HasKeysDown)
                 ProcessKeyboard(Game.Instance.Keyboard);
-
-            gameLoop(0);
-            _mapDisplay.centerOnEntity(Program.ecs.getActor(0));
-
-            base.Update(new TimeSpan(0));
+            
+            depth = 0;
+            gameLoop();
+            _mapDisplay.centerOnEntity(Program.player);
+            base.Update(delta);
             Program.ecs.updateSystems();
-            //gameLoop();
         }
 
         public override bool ProcessKeyboard(Keyboard keyboard)
