@@ -33,7 +33,7 @@ namespace ecsRL
             Actor actor = Program.ecs.getActor(performedByID);
             Point point = actor.position + direction;
 
-            if(Program.map.tiles[point.X, point.Y].isPassable)
+            if(Program.map.tiles[point.X, point.Y].isPassable )
             {
                 // TODO: check if there is another actor and construct alternative attack action
                 Program.map.moveActorToPoint(actor, point);

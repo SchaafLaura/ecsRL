@@ -12,6 +12,7 @@ namespace ecsRL
         public InfoDisplay _infoDisplay;
         private static uint _currentActor = 0;
         private static Actor currentActor = Program.ecs.getActor(_currentActor);
+        private static int recursionLimit = 5000;
 
         public RootScreen(MapDisplay mapDisplay, LogDisplay logDisplay, InfoDisplay infoDisplay)
         {
@@ -30,10 +31,8 @@ namespace ecsRL
         }
 
 
-        private void gameLoop()
+        private void gameLoop(int iterationNumber)
         {
-            currentActor.gainEnergy();
-
             if(currentActor.hasEnoughEnergy())
             {
                 var action = currentActor.getAction();
@@ -48,13 +47,23 @@ namespace ecsRL
                     action = result.alternative;
                 }
             }
+            else
+            {
+                currentActor.gainEnergy();
+            }
 
             _currentActor = (_currentActor + 1) % Program.ecs.NumberOfActors;
+            currentActor = Program.ecs.getActor(_currentActor);
+            
             while((currentActor = Program.ecs.getActor(_currentActor)) == null)
-                _currentActor = (_currentActor + 1) % Program.ecs.NumberOfActors;
-            if(_currentActor != 0)
-                gameLoop();
+              _currentActor = (_currentActor + 1) % Program.ecs.NumberOfActors;
+    
+            if(_currentActor != 0 && iterationNumber < recursionLimit)
+                gameLoop(++iterationNumber);
+
         }
+
+
 
         public override void Update(TimeSpan delta)
         {
@@ -76,11 +85,12 @@ namespace ecsRL
             if(Game.Instance.Keyboard.HasKeysDown)
                 ProcessKeyboard(Game.Instance.Keyboard);
 
-            gameLoop();
+            gameLoop(0);
             _mapDisplay.centerOnEntity(Program.ecs.getActor(0));
+
             base.Update(new TimeSpan(0));
             Program.ecs.updateSystems();
-
+            //gameLoop();
         }
 
         public override bool ProcessKeyboard(Keyboard keyboard)

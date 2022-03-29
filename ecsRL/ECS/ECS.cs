@@ -48,7 +48,16 @@ namespace ecsRL
 
         public Actor getActor(uint id)
         {
-            return actors.ContainsKey(id) ? actors[id] : null;
+            if(actors.ContainsKey(id))
+            {
+                return actors[id];
+            }
+            else 
+            {
+                return null;
+
+            }
+            //return actors.ContainsKey(id) ? actors[id] : null;
         }
 
         // adds components to an entity, that is already in the ecs

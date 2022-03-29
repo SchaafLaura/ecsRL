@@ -79,7 +79,7 @@ namespace ecsRL
             {
                 position = new Point(523, 507),
                 name = "Laura",
-                speed = 50
+                speed = 100
             };
 
             Creature Lisa = new Creature
@@ -104,7 +104,7 @@ namespace ecsRL
                     new ColoredGlyph(Color.DarkGoldenrod, Color.Transparent, 'c')));
 
             
-            for(int i = 0; i < 5000; i++)
+            for(int i = 0; i < 12500; i++)
             {
                 Random rng = new Random();
                 Creature creature = new Creature

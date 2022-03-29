@@ -9,7 +9,7 @@ namespace ecsRL
     public abstract class Actor : Entity
     {
         public int speed = 100;
-        public int currentEnergy = 0;
+        public int currentEnergy = 100;
         public void gainEnergy()
         {
             currentEnergy += speed;
