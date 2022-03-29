@@ -11,6 +11,7 @@ namespace ecsRL
         public Stack<Action> actions = new Stack<Action>();
         public override Action getAction()
         {
+            /*
             MovementAction ret = new MovementAction(this.ID);
             Random rng = new Random();
 
@@ -40,7 +41,8 @@ namespace ecsRL
                 return getAction();
 
             return ret;
-
+            */
+            
             return actions.Count == 0 ? null : actions.Pop();
         }
     }
