@@ -11,6 +11,7 @@ namespace ecsRL
         public static Map map;
         public static Log log;
         public static RootScreen rootScreen;
+        public static InputHandler inputHandler;
         
         public const int SCREEN_WIDTH = 160;
         public const int SCREEN_HEIGHT = 85;
@@ -58,8 +59,9 @@ namespace ecsRL
 
             InfoDisplay infoDisplay = new InfoDisplay(38, SCREEN_HEIGHT / 2 - 1, new Point(SCREEN_WIDTH - 40 + 1, SCREEN_HEIGHT / 2 + 1));
 
+            inputHandler = new InputHandler();
+
             rootScreen = new RootScreen(mapDisplay, logDisplay, infoDisplay);
-            //rootScreen.IsEnabled = false;
 
             Game.Instance.Screen = rootScreen;
             Game.Instance.DestroyDefaultStartingConsole();
@@ -73,7 +75,7 @@ namespace ecsRL
             {
                 position = new Point(525, 508),
                 name = "Matrix",
-                speed = 100
+                speed = 50
             };
 
             player = new Player
@@ -87,7 +89,7 @@ namespace ecsRL
             {
                 position = new Point(522, 507),
                 name = "Lisa",
-                speed = 100
+                speed = 50
             };
 
             ecs.addActor(player,
@@ -112,7 +114,7 @@ namespace ecsRL
                 {
                     position = new Point(rng.Next(0, 1000), rng.Next(0, 1000)),
                     name = "randomCreature " + i,
-                    speed = 100,
+                    speed = rng.Next(5, 80),
                     currentEnergy = 100
                 };
 
