@@ -12,9 +12,7 @@ namespace ecsRL
 
         public abstract bool tryTakeInput(Keys key);
         public abstract ActionResult perform();
-
         public abstract bool isPerformable();
-
         public abstract int Cost { get;}
     }
 }

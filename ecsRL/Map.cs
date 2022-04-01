@@ -10,10 +10,8 @@ namespace ecsRL
         public bool isPassable;
         public ColoredGlyph glyph = new ColoredGlyph(Color.Transparent, Color.Transparent);
 
-        public Tile()
-        {
+        public Tile() {}
 
-        }
         public Tile(ColoredGlyph glyph, bool isPassable)
         {
             this.glyph = glyph;
@@ -51,31 +49,22 @@ namespace ecsRL
             {
                 for(int j = 0; j < height; j++)
                 {
-                    
                     int rand = rng.Next(0, 100);
-
                     Tile tile;
+
                     if(rand < 80)
-                    {
                         tile = groundTile;
-                    }
                     else if(rand < 95)
-                    {
                         tile = grassTile;
-                    }
                     else if(rand < 99)
-                    {
                         tile = shrubTile;
-                    }else
-                    {
+                    else
                         tile = waterTile;
-                    }
+
                     tiles[i, j] = tile;
                 }
             }
-
             tiles[523, 508] = debugTile;
-
         }
 
         Tile debugTile = new Tile(
@@ -112,7 +101,5 @@ namespace ecsRL
                 Color.Transparent,
                 '~'),
             false);
-
-
     }
 }

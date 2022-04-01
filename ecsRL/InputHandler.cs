@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using SadConsole;
+﻿using System.Linq;
 using SadConsole.Input;
 
 namespace ecsRL
@@ -12,10 +7,7 @@ namespace ecsRL
     {
         Action unfinished = null;
 
-        public InputHandler()
-        {
-
-        }
+        public InputHandler() {}
 
         public void handleInput(Keyboard keyboard)
         {
@@ -23,7 +15,6 @@ namespace ecsRL
 
             if(unfinished == null)
             {
-                
                 if(Equals(key, Keys.H))
                     unfinished = new HugAction(Program.player.ID);
                 else if(Equals(key, Keys.Left))

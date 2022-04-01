@@ -8,7 +8,6 @@ namespace ecsRL
     {
         Log log;
         ScreenSurface surface;
-
         public LogDisplay(Log log, int width, int height, Point position)
         {
             this.log = log;

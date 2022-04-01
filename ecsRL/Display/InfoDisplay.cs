@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using SadConsole;
 using SadRogue.Primitives;
 
@@ -45,17 +42,13 @@ namespace ecsRL
             Children.Add(surface);
         }
 
-
-
         private void display()
         {
             Rectangle rectangle = new Rectangle(1, 1, surface.Surface.Width - 2, surface.Surface.Height - 2);
             surface.Surface.Fill(rectangle, Color.Black, Color.Black, ' ');
-            //surface.Surface.DrawBox(rectangle, new ColoredGlyph(Color.Black, Color.Black, ' '), new ColoredGlyph(Color.Black, Color.Black, ' '));
-
+            
             Point gameCoords = Program.rootScreen._mapDisplay.screenCoordsToGameCoords(infoLocation);
             var entities = Program.map.actors.GetItems(gameCoords.X, gameCoords.Y);
-
 
             if(infoLocation.X != -1)
             {

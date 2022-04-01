@@ -7,7 +7,6 @@
 
         public static ActionResult success = new ActionResult(true);
         public static ActionResult failure = new ActionResult(false);
-
         public ActionResult(bool succeeded)
         {
             this.succeeded = succeeded;

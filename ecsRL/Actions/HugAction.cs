@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using SadRogue.Primitives;
+﻿using SadRogue.Primitives;
 using GoRogue;
 using SadConsole;
 using SadConsole.Input;
@@ -15,10 +10,8 @@ namespace ecsRL
         public Point direction;
         private bool directionIsSet = false;
 
-        public HugAction(uint performedByID) : base(performedByID)
-        {
+        public HugAction(uint performedByID) : base(performedByID) {}
 
-        }
         public HugAction(uint performedByID, Point direction) : base(performedByID)
         {
             this.direction = direction;
@@ -57,7 +50,6 @@ namespace ecsRL
                 directionIsSet = true;
             }
         }
-
 
         public override int Cost
         {

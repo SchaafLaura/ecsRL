@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using SadRogue.Primitives;
+﻿using SadRogue.Primitives;
 using GoRogue;
 using SadConsole.Input;
 
@@ -25,10 +20,7 @@ namespace ecsRL
             directionIsSet = true;
         }
 
-        public MovementAction(uint performedByID) : base(performedByID)
-        {
-
-        }
+        public MovementAction(uint performedByID) : base(performedByID) {}
 
         public override bool tryTakeInput(Keys key)
         {

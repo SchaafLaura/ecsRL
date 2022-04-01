@@ -1,10 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using SadConsole;
-using SadConsole.UI;
 using SadRogue.Primitives;
 
 namespace ecsRL
@@ -48,8 +43,6 @@ namespace ecsRL
             return new Point(screenCoords.X + (mapViewPosition.X - viewWidth/2) , screenCoords.Y + (mapViewPosition.Y - viewHeight / 2));
         }
 
-        
-
         public void centerOnEntity(Entity entity)
         {
             mapViewPosition = new Point(
@@ -87,7 +80,6 @@ namespace ecsRL
         public void display()
         {
             displayTiles();
-            //displayItems();
         }
 
         public void drawGlyph(int x, int y, ColoredGlyph glyph)
@@ -95,7 +87,6 @@ namespace ecsRL
             Point screenPos = gameCoordsToScreenCoords(new Point(x, y));
             if(screenPos.X < 0 || screenPos.Y < 0 || screenPos.X > viewWidth - 3 || screenPos.Y > viewHeight - 3)
                 return;
-            //surface.Surface.SetGlyph(screenPos.X + 1, screenPos.Y + 1, glyph);
             surface.Surface.SetCellAppearance(screenPos.X + 1, screenPos.Y + 1, glyph);
         }
 
@@ -107,15 +98,9 @@ namespace ecsRL
                 {
                     Point gamePos = screenCoordsToGameCoords(new Point(i, j));
                     Tile tile = map.tiles[gamePos.X, gamePos.Y];
-                    //surface.Surface.SetGlyph(i+1, j+ 1, tile.glyph);
                     surface.Surface.SetCellAppearance(i + 1, j + 1, tile.glyph);
                 }
             }
-        }
-
-        private void displayItems()
-        {
-
         }
 
         public override void Update(TimeSpan delta)

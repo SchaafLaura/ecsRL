@@ -5,15 +5,13 @@ namespace ecsRL
 {
     public class ECS
     {
-        Dictionary<uint, Actor> actors;
         SystemBase[] systems;
 
+        Dictionary<uint, Actor> actors;
         static Stack<uint> freeIDs;
         static uint runningID = 0;
-
         public uint NumberOfActors{ get{ return (uint) actors.Count;} }
         public IEnumerable<Actor> Actors { get { return actors.Values; } }
-
 
         public ECS()
         {
@@ -35,10 +33,8 @@ namespace ecsRL
 
         public void deleteActor(uint id)
         {
-            actors.Remove(id); // maybe this is not needed? just push the id to the freeID stack
+            actors.Remove(id);
 
-            // this is needed however, because systems will try to update all components 
-            // regardless of weather or not the entity exists
             foreach(SystemBase system in systems)
             {
                 system.remove(id);
@@ -49,15 +45,8 @@ namespace ecsRL
         public Actor getActor(uint id)
         {
             if(actors.ContainsKey(id))
-            {
-                return actors[id];
-            }
-            else 
-            {
-                return null;
-
-            }
-            //return actors.ContainsKey(id) ? actors[id] : null;
+                return actors[id]; 
+            return null;
         }
 
         // adds components to an entity, that is already in the ecs
