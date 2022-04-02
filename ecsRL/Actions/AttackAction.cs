@@ -5,14 +5,17 @@ using SadConsole.Input;
 
 namespace ecsRL
 {
-    public class HugAction : Action
+    public class AttackAction : Action
     {
         public Point direction;
         private bool directionIsSet = false;
 
-        public HugAction(uint performedByID) : base(performedByID) {}
+        public int damage;
+        private bool damageIsSet = false;
 
-        public HugAction(uint performedByID, Point direction) : base(performedByID)
+        public AttackAction(uint performedByID) : base(performedByID) { }
+
+        public AttackAction(uint performedByID, Point direction) : base(performedByID)
         {
             this.direction = direction;
             directionIsSet = true;
@@ -28,6 +31,8 @@ namespace ecsRL
                 Direction = MovementAction.N;
             else if(Equals(key, Keys.Down))
                 Direction = MovementAction.S;
+            else if((int)key >= 96 && (int) key <= 105)
+                Damage = ((int)key - 96) * 10;
             else
                 return false;
 
@@ -36,7 +41,7 @@ namespace ecsRL
 
         public override Action clone()
         {
-            HugAction clone = new HugAction(this.performedByID);
+            AttackAction clone = new AttackAction(this.performedByID);
 
             if(directionIsSet)
                 clone.Direction = this.Direction;
@@ -46,10 +51,11 @@ namespace ecsRL
 
         public override bool isPerformable()
         {
-            return directionIsSet;
+            return directionIsSet && damageIsSet;
         }
 
-        public Point Direction { 
+        public Point Direction
+        {
             get
             {
                 return direction;
@@ -58,6 +64,19 @@ namespace ecsRL
             {
                 direction = value;
                 directionIsSet = true;
+            }
+        }
+
+        public int Damage
+        {
+            get
+            {
+                return damage;
+            }
+            set
+            {
+                damage = value;
+                damageIsSet = true;
             }
         }
 
@@ -72,8 +91,8 @@ namespace ecsRL
         public override ActionResult perform()
         {
             Actor actor = Program.ecs.getActor(performedByID);
-            Coord hugPosition = new Coord((actor.position + direction).X, (actor.position + direction).Y);
-            Actor other = Program.map.actors.GetItem(hugPosition);
+            Coord attackPosition = new Coord((actor.position + direction).X, (actor.position + direction).Y);
+            Actor other = Program.map.actors.GetItem(attackPosition);
 
             if(other == null)
             {
@@ -81,7 +100,8 @@ namespace ecsRL
             }
             else
             {
-                Program.log.log(new ColoredString("You successfully hugged " + other.name));
+                other.takeDamage(Damage);
+                Program.log.log(new ColoredString("You successfully attacked " + other.name + " causing " + damage + " damage!"));
                 return ActionResult.success;
             }
         }

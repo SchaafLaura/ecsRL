@@ -59,6 +59,7 @@ namespace ecsRL
                 if(entities.Count() != 0)
                 {
                     surface.Surface.Print(1, 9, entities.First().name, Color.White);
+                    surface.Surface.Print(1, 11, entities.First().health.ToString(), Color.Red);
                 }
             }
             

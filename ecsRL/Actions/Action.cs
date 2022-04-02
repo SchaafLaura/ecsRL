@@ -10,6 +10,7 @@ namespace ecsRL
         }
         public uint performedByID;
 
+        public abstract Action clone();
         public abstract bool tryTakeInput(Keys key);
         public abstract ActionResult perform();
         public abstract bool isPerformable();

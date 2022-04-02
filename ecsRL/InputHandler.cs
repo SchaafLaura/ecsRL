@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using SadConsole.Input;
 
 namespace ecsRL
@@ -6,8 +7,12 @@ namespace ecsRL
     public class InputHandler
     {
         Action unfinished = null;
+        Dictionary<Keys, Action> keyToActionMap;
 
-        public InputHandler() {}
+        public InputHandler() 
+        {
+            initKeyToActionMap();
+        }
 
         public void handleInput(Keyboard keyboard)
         {
@@ -15,16 +20,8 @@ namespace ecsRL
 
             if(unfinished == null)
             {
-                if(Equals(key, Keys.H))
-                    unfinished = new HugAction(Program.player.ID);
-                else if(Equals(key, Keys.Left))
-                    unfinished = new MovementAction(Program.player.ID, MovementAction.W);
-                else if(Equals(key, Keys.Right))
-                    unfinished = new MovementAction(Program.player.ID, MovementAction.E);
-                else if(Equals(key, Keys.Up))
-                    unfinished = new MovementAction(Program.player.ID, MovementAction.N);
-                else if(Equals(key, Keys.Down))
-                    unfinished = new MovementAction(Program.player.ID, MovementAction.S);
+                if(keyToActionMap.ContainsKey(key))
+                    unfinished = keyToActionMap[key].clone();
             }
             else
             {
@@ -40,6 +37,20 @@ namespace ecsRL
 
             Program.player.actions.Push(unfinished);
             unfinished = null;
+        }
+
+        public void initKeyToActionMap()
+        {
+            keyToActionMap = new Dictionary<Keys, Action>();
+
+            keyToActionMap[Keys.Up] = new MovementAction(Program.player.ID, MovementAction.N);
+            keyToActionMap[Keys.Down] = new MovementAction(Program.player.ID, MovementAction.S);
+            keyToActionMap[Keys.Left] = new MovementAction(Program.player.ID, MovementAction.W);
+            keyToActionMap[Keys.Right] = new MovementAction(Program.player.ID, MovementAction.E);
+
+            keyToActionMap[Keys.H] = new HugAction(Program.player.ID);
+
+            keyToActionMap[Keys.A] = new AttackAction(Program.player.ID);
         }
     }
 }

@@ -10,7 +10,8 @@ namespace ecsRL
         Dictionary<uint, Actor> actors;
         static Stack<uint> freeIDs;
         static uint runningID = 0;
-        public uint NumberOfActors{ get{ return (uint) actors.Count;} }
+        //public uint NumberOfActors{ get{ return (uint) actors.Count;} }
+        public uint NumberOfActors { get { return runningID; } }
         public IEnumerable<Actor> Actors { get { return actors.Values; } }
 
         public ECS()
@@ -33,12 +34,11 @@ namespace ecsRL
 
         public void deleteActor(uint id)
         {
+            foreach(SystemBase system in systems)
+                system.remove(id);
+
             actors.Remove(id);
 
-            foreach(SystemBase system in systems)
-            {
-                system.remove(id);
-            }
             freeIDs.Push(id);
         }
 

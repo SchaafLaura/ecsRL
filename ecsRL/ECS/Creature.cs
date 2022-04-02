@@ -6,6 +6,9 @@ namespace ecsRL
     {
         public override Action getAction()
         {
+            if(health <= 0)
+                return new DeathAction(ID);
+
             MovementAction ret = new MovementAction(this.ID);
             Random rng = new Random();
 
@@ -24,6 +27,12 @@ namespace ecsRL
                 return getAction();
 
             return ret;
+        }
+
+        public override void die()
+        {
+            Program.map.actors.Remove(this);
+            Program.ecs.deleteActor(ID);
         }
     }
 }

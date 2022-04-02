@@ -6,11 +6,10 @@ namespace ecsRL
     {
         public override void update()
         {
-            for(uint i = 0; i < components.Count; i++)
-            {
-                RenderComponent component =  components[i];
 
-                ColoredGlyph G = component.glyph;
+            foreach(Component component in components.Values)
+            {
+                ColoredGlyph G = ((RenderComponent)component).glyph;
                 Point position = Program.ecs.getActor(component.attachedToID).position;
 
                 Program.rootScreen.drawGlyphOnMap(position.X, position.Y, G);

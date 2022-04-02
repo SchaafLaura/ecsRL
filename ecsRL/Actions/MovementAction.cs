@@ -22,6 +22,16 @@ namespace ecsRL
 
         public MovementAction(uint performedByID) : base(performedByID) {}
 
+        public override Action clone()
+        {
+            MovementAction clone = new MovementAction(this.performedByID);
+
+            if(this.directionIsSet)
+                clone.Direction = this.Direction;
+
+            return clone;
+        }
+
         public override bool tryTakeInput(Keys key)
         {
             return false;

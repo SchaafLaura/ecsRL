@@ -41,21 +41,7 @@ namespace ecsRL
         public Log()
         {
             items = new List<LogItem>();
-
-            items.Add(new LogItem(new ColoredString("Hello World", Color.Cyan, Color.Transparent)));
-            items.Add(new LogItem(new ColoredString("How are you?", Color.HotPink, Color.Transparent)));
-            items.Add(new LogItem(new ColoredString("I'm good, how are you?", Color.Cyan, Color.Transparent)));
-            items.Add(new LogItem());
-            items.Add(new LogItem());
-            items.Add(new LogItem());
-            items.Add(new LogItem());
-            items.Add(new LogItem());
-            items.Add(new LogItem());
-            items.Add(new LogItem());
-            items.Add(new LogItem());
-            items.Add(new LogItem());
-
-            numberOfItems = 12;
+            numberOfItems = 0;
         }
 
         public void log(ColoredString message)

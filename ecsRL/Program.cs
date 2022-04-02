@@ -107,12 +107,12 @@ namespace ecsRL
                     new ColoredGlyph(Color.DarkGoldenrod, Color.Transparent, 'c')));
 
             
-            for(int i = 0; i < 10000; i++)
+            for(int i = 0; i < 5000; i++)
             {
                 Random rng = new Random();
                 Creature creature = new Creature
                 {
-                    position = new Point(rng.Next(0, 1000), rng.Next(0, 1000)),
+                    position = new Point(rng.Next(0, MAP_WIDTH), rng.Next(0, MAP_HEIGHT)),
                     name = "randomCreature " + i,
                     speed = rng.Next(5, 80),
                     currentEnergy = 100
