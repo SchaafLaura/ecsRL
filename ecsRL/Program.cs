@@ -2,7 +2,6 @@
 using SadRogue.Primitives;
 using System;
 
-
 namespace ecsRL
 {
     public class Program
@@ -107,7 +106,6 @@ namespace ecsRL
                 new RenderComponent(
                     new ColoredGlyph(Color.DarkGoldenrod, Color.Transparent, 'c')));
 
-            
             for(int i = 0; i < 5000; i++)
             {
                 Random rng = new Random();
@@ -123,8 +121,6 @@ namespace ecsRL
                     new RenderComponent(
                         new ColoredGlyph(Color.DarkGoldenrod, Color.Transparent, 'C')));
             }
-            
-
         }
     }
 }

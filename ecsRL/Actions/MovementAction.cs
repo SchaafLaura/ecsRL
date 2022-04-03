@@ -20,7 +20,7 @@ namespace ecsRL
             directionIsSet = true;
         }
 
-        public MovementAction(uint performedByID) : base(performedByID) {}
+        public MovementAction(uint performedByID) : base(performedByID) { }
 
         public override Action clone()
         {
@@ -55,8 +55,8 @@ namespace ecsRL
             }
         }
 
-        public override int Cost 
-        { 
+        public override int Cost
+        {
             get
             {
                 return 100;
@@ -70,11 +70,18 @@ namespace ecsRL
 
             if(Program.map.tiles[point.X, point.Y].isPassable && Program.map.actors.GetItem(new Coord(point.X, point.Y)) == null)
             {
-                // TODO: check if there is another actor and construct alternative attack action
                 Program.map.moveActorToPoint(actor, point);
                 actor.position = point;
                 actor.currentEnergy -= Cost;
                 return ActionResult.success;
+            }
+            else if(Program.map.actors.GetItem(new Coord(point.X, point.Y)) != null)
+            {
+                return new ActionResult(
+                    new HugAction(performedByID)
+                    {
+                        Direction = direction
+                    });
             }
             else
             {

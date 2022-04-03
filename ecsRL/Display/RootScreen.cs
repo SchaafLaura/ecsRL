@@ -78,7 +78,6 @@ namespace ecsRL
 
             _mapDisplay.centerOnEntity(Program.player);
             base.Update(delta);
-            Program.ecs.updateSystems();
         }
 
         public Point getMouseLocation()

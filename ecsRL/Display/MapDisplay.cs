@@ -99,6 +99,12 @@ namespace ecsRL
                     Point gamePos = screenCoordsToGameCoords(new Point(i, j));
                     Tile tile = map.tiles[gamePos.X, gamePos.Y];
                     surface.Surface.SetCellAppearance(i + 1, j + 1, tile.glyph);
+
+                    Actor actor = map.actors.GetItem(gamePos.X, gamePos.Y);
+                    if(actor != null && actor.components.ContainsKey((int)ComponentID.RENDER_COMPONENT))
+                        surface.Surface.SetCellAppearance(i + 1, j + 1, ((RenderComponent) actor.components[(int)ComponentID.RENDER_COMPONENT]).glyph);
+
+
                 }
             }
         }

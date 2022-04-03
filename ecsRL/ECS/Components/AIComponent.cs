@@ -3,10 +3,16 @@ namespace ecsRL
 {
     public class AIComponent : Component
     {
-        public static new int id = (int)ComponentID.AI_COMPONENT;
-        public override int componentID()
+        public override ComponentID ComponentID
         {
-            return id;
+            get
+            {
+                return ComponentID.AI_COMPONENT;
+            }
+            set
+            {
+
+            }
         }
     }
 }

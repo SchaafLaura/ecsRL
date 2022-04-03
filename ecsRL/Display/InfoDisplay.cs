@@ -62,7 +62,6 @@ namespace ecsRL
                     surface.Surface.Print(1, 11, entities.First().health.ToString(), Color.Red);
                 }
             }
-            
         }
 
         public override void Update(TimeSpan delta)

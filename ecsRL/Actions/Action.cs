@@ -8,8 +8,8 @@ namespace ecsRL
         {
             this.performedByID = performedByID;
         }
-        public uint performedByID;
 
+        public uint performedByID;
         public abstract Action clone();
         public abstract bool tryTakeInput(Keys key);
         public abstract ActionResult perform();

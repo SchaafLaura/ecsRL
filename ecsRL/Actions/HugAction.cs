@@ -10,7 +10,7 @@ namespace ecsRL
         public Point direction;
         private bool directionIsSet = false;
 
-        public HugAction(uint performedByID) : base(performedByID) {}
+        public HugAction(uint performedByID) : base(performedByID) { }
 
         public HugAction(uint performedByID, Point direction) : base(performedByID)
         {
@@ -49,7 +49,8 @@ namespace ecsRL
             return directionIsSet;
         }
 
-        public Point Direction { 
+        public Point Direction
+        {
             get
             {
                 return direction;
@@ -81,7 +82,13 @@ namespace ecsRL
             }
             else
             {
-                Program.log.log(new ColoredString("You successfully hugged " + other.name));
+                if(other.ID == 0)
+                {
+                    Program.log.log(new ColoredString(actor.name + " hugged you!"));
+                }
+
+                if(performedByID == 0)
+                    Program.log.log(new ColoredString("You successfully hugged " + other.name));
                 return ActionResult.success;
             }
         }

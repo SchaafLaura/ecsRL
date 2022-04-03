@@ -31,7 +31,7 @@ namespace ecsRL
                 Direction = MovementAction.N;
             else if(Equals(key, Keys.Down))
                 Direction = MovementAction.S;
-            else if((int)key >= 96 && (int) key <= 105)
+            else if((int)key >= 96 && (int)key <= 105)
                 Damage = ((int)key - 96) * 10;
             else
                 return false;
@@ -101,7 +101,11 @@ namespace ecsRL
             else
             {
                 other.takeDamage(Damage);
-                Program.log.log(new ColoredString("You successfully attacked " + other.name + " causing " + damage + " damage!"));
+                if(performedByID == 0)
+                    Program.log.log(new ColoredString(Program.player.name + " successfully attacked " + other.name + ", causing " + damage + " damage!"));
+                else if(other.ID == 0)
+                    Program.log.log(new ColoredString(actor.name + " successfully attacked you, causing " + damage + " damage!"));
+
                 return ActionResult.success;
             }
         }
