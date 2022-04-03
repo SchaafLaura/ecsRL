@@ -105,7 +105,6 @@ namespace ecsRL
             ecs.addActor(cat,
                 new RenderComponent(
                     new ColoredGlyph(Color.DarkGoldenrod, Color.Transparent, 'c')));
-
             
             for(int i = 0; i < 5000; i++)
             {
@@ -122,8 +121,6 @@ namespace ecsRL
                     new RenderComponent(
                         new ColoredGlyph(Color.DarkGoldenrod, Color.Transparent, 'C')));
             }
-            
-
         }
     }
 }

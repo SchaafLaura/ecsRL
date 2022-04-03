@@ -76,6 +76,14 @@ namespace ecsRL
                 actor.currentEnergy -= Cost;
                 return ActionResult.success;
             }
+            else if(Program.map.actors.GetItem(new Coord(point.X, point.Y)) != null)
+            {
+                return new ActionResult(
+                    new HugAction(performedByID)
+                    {
+                        Direction = direction
+                    });
+            }
             else
             {
                 return ActionResult.failure;

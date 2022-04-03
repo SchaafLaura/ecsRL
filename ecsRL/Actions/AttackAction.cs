@@ -101,7 +101,11 @@ namespace ecsRL
             else
             {
                 other.takeDamage(Damage);
-                Program.log.log(new ColoredString("You successfully attacked " + other.name + " causing " + damage + " damage!"));
+                if(performedByID == 0)
+                    Program.log.log(new ColoredString(Program.player.name + " successfully attacked " + other.name + ", causing " + damage + " damage!"));
+                else if(other.ID == 0)
+                    Program.log.log(new ColoredString(actor.name + " successfully attacked you, causing " + damage + " damage!"));
+
                 return ActionResult.success;
             }
         }

@@ -1,4 +1,5 @@
 ﻿using System;
+using SadRogue.Primitives;
 
 namespace ecsRL
 {
@@ -14,10 +15,10 @@ namespace ecsRL
 
             int number = rng.Next(0, 100);
 
-            if(number <= 25) ret.direction = MovementAction.N;
-            else if(number <= 50) ret.direction = MovementAction.E;
-            else if(number <= 75) ret.direction = MovementAction.S;
-            else ret.direction = MovementAction.W;
+            if(number <= 25) ret.Direction = MovementAction.N;
+            else if(number <= 50) ret.Direction = MovementAction.E;
+            else if(number <= 75) ret.Direction = MovementAction.S;
+            else ret.Direction = MovementAction.W;
 
             // if out of bounds, choose another direction
             if(position.X + ret.direction.X < 0 ||
