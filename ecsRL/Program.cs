@@ -106,7 +106,7 @@ namespace ecsRL
                 new RenderComponent(
                     new ColoredGlyph(Color.DarkGoldenrod, Color.Transparent, 'c')));
 
-            for(int i = 0; i < 1000; i++)
+            for(int i = 0; i < 2000; i++)
             {
                 Random rng = new Random();
                 Creature creature = new Creature

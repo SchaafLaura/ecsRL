@@ -28,10 +28,6 @@ namespace ecsRL
         private void display()
         {
             infoSurface.Surface.Clear();
-            /*
-            Rectangle rectangle = new Rectangle(1, 1, surface.Surface.Width - 2, surface.Surface.Height - 2);
-            surface.Surface.Fill(rectangle, Color.Black, Color.Black, ' ');
-            */
             
             Point gameCoords = Program.rootScreen._mapDisplay.screenCoordsToGameCoords(infoLocation);
             var entities = Program.map.actors.GetItems(gameCoords.X, gameCoords.Y);
@@ -40,7 +36,6 @@ namespace ecsRL
             {
                 infoSurface.Surface.Print(0, 0, new ColoredString("Coordinates: ") + new ColoredString(gameCoords.ToString()));
                 infoSurface.Surface.Print(0, 2, new ColoredString("Tile: ") + new ColoredString(Program.map.tiles[gameCoords.X, gameCoords.Y].glyph));
-
                 infoSurface.Surface.Print(0, 4, new ColoredString("Entity Count: ") + new ColoredString(entities.Count().ToString()));
                 if(entities.Count() != 0)
                 {
@@ -62,8 +57,6 @@ namespace ecsRL
                                     surface.Surface.Area,
                                     new Gradient(colors, colorStops),
                                     (x, y, color) => surface.Surface[x, y].Foreground = color);
-
-
 
             surface.Surface.DrawBox(
                 surface.Surface.Area,

@@ -18,7 +18,7 @@ namespace ecsRL
                 !Program.map.tiles[position.X + 1, position.Y].isPassable &&
                 !Program.map.tiles[position.X, position.Y - 1].isPassable &&
                 !Program.map.tiles[position.X, position.Y - 1].isPassable)
-                return new MovementAction(this.ID, MovementAction.O);
+                return new DeathAction(this.ID);
 
             MovementAction ret = new MovementAction(this.ID);
             Random rng = new Random();

@@ -64,7 +64,6 @@ namespace ecsRL
                     tiles[i, j] = tile;
                 }
             }
-
             
             for(int i = 1; i < width; i++)
             {
