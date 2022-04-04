@@ -64,7 +64,66 @@ namespace ecsRL
                     tiles[i, j] = tile;
                 }
             }
-            tiles[523, 508] = debugTile;
+
+            
+            for(int i = 1; i < width; i++)
+            {
+                for(int j = 1; j < height; j++)
+                {
+                    if(tiles[i,j] == waterTile)
+                    {
+                        tiles[i - 1, j] = waterTile;
+                        tiles[i - 1, j - 1] = waterTile;
+                        tiles[i, j - 1] = waterTile;
+                    }
+                }
+            }
+
+            for(int i = 1; i < width; i++)
+            {
+                for(int j = 1; j < height; j++)
+                {
+                    if(tiles[i, j] == waterTile)
+                    {
+                        tiles[i - 1, j] = waterTile;
+                        tiles[i - 1, j - 1] = waterTile;
+                        tiles[i, j - 1] = waterTile;
+                    }
+                }
+            }
+
+            for(int i = 1; i < width; i++)
+            {
+                for(int j = 1; j < height; j++)
+                {
+                    if(tiles[i, j] == waterTile)
+                    {
+                        tiles[i - 1, j] = waterTile;
+                        tiles[i - 1, j - 1] = waterTile;
+                        tiles[i, j - 1] = waterTile;
+                    }
+                }
+            }
+
+            for(int i = 1; i < width - 1; i++)
+            {
+                for(int j = 1; j < height - 1; j++)
+                {
+                    int watercount = 0;
+                    for(int x = i - 1; x <= i + 1; x++)
+                    {
+                        for(int y = j - 1; y <= j + 1; y++)
+                        {
+                            watercount += tiles[x, y] == waterTile ? 1 : 0;
+                        }
+                    }
+
+                    if(tiles[i, j] == waterTile && watercount < 5)
+                        tiles[i, j] = groundTile;
+                    else if(tiles[i, j] != waterTile && watercount >= 4)
+                        tiles[i, j] = waterTile;
+                }
+            }
         }
 
         Tile debugTile = new Tile(

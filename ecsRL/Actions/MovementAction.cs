@@ -10,6 +10,7 @@ namespace ecsRL
         public static Point S = new Point(0, 1);
         public static Point W = new Point(-1, 0);
         public static Point E = new Point(1, 0);
+        public static Point O = new Point(0, 0);
 
         public Point direction;
         private bool directionIsSet = false;
@@ -67,6 +68,12 @@ namespace ecsRL
         {
             Actor actor = Program.ecs.getActor(performedByID);
             Point point = actor.position + direction;
+
+            if(direction.X == 0 && direction.Y == 0)
+            {
+                actor.currentEnergy -= Cost;
+                return ActionResult.success;
+            }
 
             if(Program.map.tiles[point.X, point.Y].isPassable && Program.map.actors.GetItem(new Coord(point.X, point.Y)) == null)
             {

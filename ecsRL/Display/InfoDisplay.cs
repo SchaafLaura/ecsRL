@@ -8,6 +8,7 @@ namespace ecsRL
     public class InfoDisplay : ScreenObject
     {
         public ScreenSurface surface;
+        public ScreenSurface infoSurface;
         public Point infoLocation = new Point(-1, -1);
 
         public InfoDisplay(int width, int height, Point position)
@@ -15,6 +16,42 @@ namespace ecsRL
             surface = new ScreenSurface(width, height);
             surface.Position = position;
 
+            infoSurface = new ScreenSurface(width - 3, height - 3);
+            infoSurface.Position = position + new Point(2, 2);
+
+            drawBorder();
+
+            Children.Add(surface);
+            Children.Add(infoSurface);
+        }
+
+        private void display()
+        {
+            infoSurface.Surface.Clear();
+            /*
+            Rectangle rectangle = new Rectangle(1, 1, surface.Surface.Width - 2, surface.Surface.Height - 2);
+            surface.Surface.Fill(rectangle, Color.Black, Color.Black, ' ');
+            */
+            
+            Point gameCoords = Program.rootScreen._mapDisplay.screenCoordsToGameCoords(infoLocation);
+            var entities = Program.map.actors.GetItems(gameCoords.X, gameCoords.Y);
+
+            if(infoLocation.X != -1)
+            {
+                infoSurface.Surface.Print(0, 0, new ColoredString("Coordinates: ") + new ColoredString(gameCoords.ToString()));
+                infoSurface.Surface.Print(0, 2, new ColoredString("Tile: ") + new ColoredString(Program.map.tiles[gameCoords.X, gameCoords.Y].glyph));
+
+                infoSurface.Surface.Print(0, 4, new ColoredString("Entity Count: ") + new ColoredString(entities.Count().ToString()));
+                if(entities.Count() != 0)
+                {
+                    infoSurface.Surface.Print(0, 6, entities.First().name, Color.White);
+                    infoSurface.Surface.Print(0, 8, entities.First().health.ToString(), Color.Red);
+                }
+            }
+        }
+
+        public void drawBorder()
+        {
             Color[] colors = new[] { Color.Turquoise, Color.HotPink };
             float[] colorStops = new[] { 0f, 1f };
 
@@ -26,7 +63,7 @@ namespace ecsRL
                                     new Gradient(colors, colorStops),
                                     (x, y, color) => surface.Surface[x, y].Foreground = color);
 
-            
+
 
             surface.Surface.DrawBox(
                 surface.Surface.Area,
@@ -38,30 +75,6 @@ namespace ecsRL
                     true));
 
             surface.Surface.Print(1, 0, "Info");
-
-            Children.Add(surface);
-        }
-
-        private void display()
-        {
-            Rectangle rectangle = new Rectangle(1, 1, surface.Surface.Width - 2, surface.Surface.Height - 2);
-            surface.Surface.Fill(rectangle, Color.Black, Color.Black, ' ');
-            
-            Point gameCoords = Program.rootScreen._mapDisplay.screenCoordsToGameCoords(infoLocation);
-            var entities = Program.map.actors.GetItems(gameCoords.X, gameCoords.Y);
-
-            if(infoLocation.X != -1)
-            {
-                surface.Surface.Print(1, 3, new ColoredString("Coordinates: ") + new ColoredString(gameCoords.ToString()));
-                surface.Surface.Print(1, 5, new ColoredString("Tile: ") + new ColoredString(Program.map.tiles[gameCoords.X, gameCoords.Y].glyph));
-
-                surface.Surface.Print(1, 7, new ColoredString("Entity Count: ") + new ColoredString(entities.Count().ToString()));
-                if(entities.Count() != 0)
-                {
-                    surface.Surface.Print(1, 9, entities.First().name, Color.White);
-                    surface.Surface.Print(1, 11, entities.First().health.ToString(), Color.Red);
-                }
-            }
         }
 
         public override void Update(TimeSpan delta)

@@ -51,6 +51,8 @@ namespace ecsRL
             keyToActionMap[Keys.H] = new HugAction(Program.player.ID);
 
             keyToActionMap[Keys.A] = new AttackAction(Program.player.ID);
+
+            keyToActionMap[Keys.W] = new MovementAction(Program.player.ID, MovementAction.O);
         }
     }
 }

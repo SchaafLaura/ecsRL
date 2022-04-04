@@ -9,6 +9,17 @@ namespace ecsRL
             if(health <= 0)
                 return new DeathAction(ID);
 
+            if(
+                position.X - 1 >= 0 && 
+                position.Y - 1 >= 0 && 
+                position.X + 1 < Program.MAP_WIDTH && 
+                position.Y + 1 < Program.MAP_HEIGHT &&
+                !Program.map.tiles[position.X - 1, position.Y].isPassable &&
+                !Program.map.tiles[position.X + 1, position.Y].isPassable &&
+                !Program.map.tiles[position.X, position.Y - 1].isPassable &&
+                !Program.map.tiles[position.X, position.Y - 1].isPassable)
+                return new MovementAction(this.ID, MovementAction.O);
+
             MovementAction ret = new MovementAction(this.ID);
             Random rng = new Random();
 
