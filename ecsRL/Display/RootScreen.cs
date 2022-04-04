@@ -19,16 +19,22 @@ namespace ecsRL
             this._mapDisplay = mapDisplay;
             this._logDisplay = logDisplay;
             this._infoDisplay = infoDisplay;
+
+            
+            AnimatedScreenSurface test = new AnimatedScreenSurface("love", 1, 1);
+            var frame = test.CreateFrame();
+            CellSurfaceEditor.SetGlyph(frame, 0, 0, new ColoredGlyph(Color.Red, Color.Transparent, 3));
+            test.AnimationDuration = 10;
+            test.Repeat = false;
+            test.Position = _mapDisplay.gameCoordsToSurfaceCoords(Program.player.position);
+            test.Start();
+
             Children.Add(_logDisplay);
             Children.Add(_mapDisplay);
             Children.Add(_infoDisplay);
+            Children.Add(test);
 
             _inputHandler = new InputHandler();
-        }
-
-        public void drawGlyphOnMap(int x, int y, ColoredGlyph glyph)
-        {
-            _mapDisplay.drawGlyph(x, y, glyph);
         }
 
         private void gameLoop()
@@ -65,7 +71,7 @@ namespace ecsRL
         {
             Point mouseLocation = getMouseLocation();
             if(mouseIsOverMap(mouseLocation))
-                _infoDisplay.infoLocation = new Point(mouseLocation.X - 2, mouseLocation.Y - 2);
+                _infoDisplay.infoLocation = new Point(mouseLocation.X, mouseLocation.Y);
             else
                 _infoDisplay.infoLocation = new Point(-1, -1);
 
@@ -82,13 +88,14 @@ namespace ecsRL
 
         public Point getMouseLocation()
         {
+
             return Game.Instance.Mouse.ScreenPosition.PixelLocationToSurface(12, 12);
         }
 
         public bool mouseIsOverMap(Point mouseLocation)
         {
-            return mouseLocation.X > _mapDisplay.Position.X && mouseLocation.X < _mapDisplay.Position.X + _mapDisplay.viewWidth &&
-                mouseLocation.Y > _mapDisplay.Position.Y && mouseLocation.Y < _mapDisplay.Position.Y + _mapDisplay.viewHeight;
+            return mouseLocation.X > _mapDisplay.surface.Position.X && mouseLocation.X < _mapDisplay.surface.Position.X + _mapDisplay.viewWidth - 1 &&
+                mouseLocation.Y > _mapDisplay.surface.Position.Y && mouseLocation.Y < _mapDisplay.surface.Position.Y + _mapDisplay.viewHeight - 1;
         }
     }
 }

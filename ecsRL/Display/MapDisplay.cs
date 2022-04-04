@@ -12,17 +12,6 @@ namespace ecsRL
         public int viewWidth;
         public int viewHeight;
 
-        public MapDisplay(int mapWidth, int mapHeight, int viewWidth, int viewHeight, Point mapViewPosition, Point screenPosition)
-        {
-            map = new Map(mapWidth, mapHeight);
-            this.mapViewPosition = mapViewPosition;
-            this.viewWidth = viewWidth;
-            this.viewHeight = viewHeight;
-            surface = new ScreenSurface(viewWidth, viewHeight);
-            surface.Position = screenPosition;
-            init();
-            
-        }
         public MapDisplay(Map map, int viewWidth, int viewHeight, Point screenPosition)
         {
             this.map = map;
@@ -33,14 +22,44 @@ namespace ecsRL
             init();
         }
 
-        public Point gameCoordsToScreenCoords(Point gameCoords)
+        public void display()
         {
-            return new Point(gameCoords.X - (mapViewPosition.X - viewWidth/2) , gameCoords.Y - (mapViewPosition.Y - viewHeight / 2));
+            for(int i = 1; i < viewWidth - 1; i++)
+            {
+                for(int j = 1; j < viewHeight - 1; j++)
+                {
+                    Point surfacePos = new Point(i, j);
+                    Point gamePos = surfaceCoordsToGameCoords(surfacePos);
+
+                    Tile tile = map.tiles[gamePos.X, gamePos.Y];
+                    surface.Surface.SetCellAppearance(surfacePos.X, surfacePos.Y, tile.glyph);
+
+                    Actor actor = map.actors.GetItem(gamePos.X, gamePos.Y);
+                    if(actor != null && actor.components.ContainsKey((int)ComponentID.RENDER_COMPONENT))
+                        surface.Surface.SetCellAppearance(surfacePos.X, surfacePos.Y, ((RenderComponent)actor.components[(int)ComponentID.RENDER_COMPONENT]).glyph);
+                }
+            }
+        }
+
+        public override void Update(TimeSpan delta)
+        {
+            display();
+            base.Update(delta);
+        }
+
+        public Point gameCoordsToSurfaceCoords(Point gameCoords)
+        {
+            return new Point(gameCoords.X - (mapViewPosition.X - viewWidth / 2), gameCoords.Y - (mapViewPosition.Y - viewHeight / 2));
+        }
+
+        public Point surfaceCoordsToGameCoords(Point surfaceCoords)
+        {
+            return new Point(surfaceCoords.X + (mapViewPosition.X - viewWidth / 2) + Position.X - 1, surfaceCoords.Y + (mapViewPosition.Y - viewHeight / 2) + Position.Y - 1);
         }
 
         public Point screenCoordsToGameCoords(Point screenCoords)
         {
-            return new Point(screenCoords.X + (mapViewPosition.X - viewWidth/2) , screenCoords.Y + (mapViewPosition.Y - viewHeight / 2));
+            return surfaceCoordsToGameCoords(screenCoords - surface.Position);
         }
 
         public void centerOnEntity(Entity entity)
@@ -77,42 +96,5 @@ namespace ecsRL
             Children.Add(surface);
         }
 
-        public void display()
-        {
-            displayTiles();
-        }
-
-        public void drawGlyph(int x, int y, ColoredGlyph glyph)
-        {
-            Point screenPos = gameCoordsToScreenCoords(new Point(x, y));
-            if(screenPos.X < 0 || screenPos.Y < 0 || screenPos.X > viewWidth - 3 || screenPos.Y > viewHeight - 3)
-                return;
-            surface.Surface.SetCellAppearance(screenPos.X + 1, screenPos.Y + 1, glyph);
-        }
-
-        private void displayTiles()
-        {
-            for(int i = 0; i < viewWidth - 2; i++)
-            {
-                for(int j = 0; j < viewHeight - 2; j++)
-                {
-                    Point gamePos = screenCoordsToGameCoords(new Point(i, j));
-                    Tile tile = map.tiles[gamePos.X, gamePos.Y];
-                    surface.Surface.SetCellAppearance(i + 1, j + 1, tile.glyph);
-
-                    Actor actor = map.actors.GetItem(gamePos.X, gamePos.Y);
-                    if(actor != null && actor.components.ContainsKey((int)ComponentID.RENDER_COMPONENT))
-                        surface.Surface.SetCellAppearance(i + 1, j + 1, ((RenderComponent) actor.components[(int)ComponentID.RENDER_COMPONENT]).glyph);
-
-
-                }
-            }
-        }
-
-        public override void Update(TimeSpan delta)
-        {
-            display();
-            base.Update(delta);
-        }
     }
 }

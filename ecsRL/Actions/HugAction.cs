@@ -88,7 +88,7 @@ namespace ecsRL
                 }
 
                 if(performedByID == 0)
-                    Program.log.log(new ColoredString("You successfully hugged " + other.name));
+                    Program.log.log(new ColoredString("You hugged " + other.name));
                 return ActionResult.success;
             }
         }
