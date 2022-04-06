@@ -19,6 +19,7 @@ namespace ecsRL
         }
     }
 
+    [Serializable()]
     public class Map
     {
         public SpatialMap<Actor> actors;

@@ -1,6 +1,8 @@
 ﻿using SadConsole;
 using SadRogue.Primitives;
 using System;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace ecsRL
 {
@@ -15,8 +17,8 @@ namespace ecsRL
         
         public const int SCREEN_WIDTH = 160;
         public const int SCREEN_HEIGHT = 85;
-        public const int MAP_WIDTH = 1500;
-        public const int MAP_HEIGHT = 1500;
+        public const int MAP_WIDTH = 700;
+        public const int MAP_HEIGHT = 700;
 
         public static Color uiColor = Color.Turquoise;
 
@@ -106,7 +108,7 @@ namespace ecsRL
                 new RenderComponent(
                     new ColoredGlyph(Color.DarkGoldenrod, Color.Transparent, 'c')));
 
-            for(int i = 0; i < 2000; i++)
+            for(int i = 0; i < 100; i++)
             {
                 Random rng = new Random();
                 Creature creature = new Creature
