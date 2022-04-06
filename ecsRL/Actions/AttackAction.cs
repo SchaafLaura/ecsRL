@@ -7,6 +7,8 @@ namespace ecsRL
 {
     public class AttackAction : Action
     {
+        public static CellSurface[] attackAnimation;
+
         public Point direction;
         private bool directionIsSet = false;
 
@@ -106,8 +108,25 @@ namespace ecsRL
                 else if(other.ID == 0)
                     Program.log.log(new ColoredString(actor.name + " successfully attacked you, causing " + damage + " damage!"));
 
+                Program.rootScreen._animationDisplay.tryAddAnimationAtGamePosition(attackAnimation, actor.position);
+
                 return ActionResult.success;
             }
+        }
+
+        static AttackAction()
+        {
+            attackAnimation = new CellSurface[4];
+
+            attackAnimation[0] = new CellSurface(1, 1);
+            attackAnimation[1] = new CellSurface(1, 1);
+            attackAnimation[2] = new CellSurface(1, 1);
+            attackAnimation[3] = new CellSurface(1, 1);
+
+            CellSurfaceEditor.SetGlyph(attackAnimation[0], 0, 0, new ColoredGlyph(new Color(Color.Red, 1.0f), Color.Transparent, '!'));
+            CellSurfaceEditor.SetGlyph(attackAnimation[1], 0, 0, new ColoredGlyph(new Color(Color.Red, 0.8f), Color.Transparent, '!'));
+            CellSurfaceEditor.SetGlyph(attackAnimation[2], 0, 0, new ColoredGlyph(new Color(Color.Red, 0.5f), Color.Transparent, '!'));
+            CellSurfaceEditor.SetGlyph(attackAnimation[3], 0, 0, new ColoredGlyph(new Color(Color.Red, 0.3f), Color.Transparent, '!'));
         }
     }
 }

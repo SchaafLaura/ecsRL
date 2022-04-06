@@ -22,6 +22,15 @@ namespace ecsRL
             init();
         }
 
+        public bool isOnScreen(Point gamePosition)
+        {
+            return
+                gamePosition.X > mapViewPosition.X - viewWidth / 2 &&
+                gamePosition.X < mapViewPosition.X + viewWidth / 2 &&
+                gamePosition.Y > mapViewPosition.Y - viewHeight / 2 &&
+                gamePosition.Y < mapViewPosition.Y + viewHeight / 2;
+        }
+
         public void display()
         {
             for(int i = 1; i < viewWidth - 1; i++)

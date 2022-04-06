@@ -7,6 +7,8 @@ namespace ecsRL
 {
     public class HugAction : Action
     {
+        public static CellSurface[] hugAnimation;
+
         public Point direction;
         private bool directionIsSet = false;
 
@@ -88,9 +90,29 @@ namespace ecsRL
                 }
 
                 if(performedByID == 0)
+                {
                     Program.log.log(new ColoredString("You hugged " + other.name));
+                }
+
+                Program.rootScreen._animationDisplay.tryAddAnimationAtGamePosition(hugAnimation, actor.position);
+
                 return ActionResult.success;
             }
+        }
+
+        static HugAction()
+        {
+            hugAnimation = new CellSurface[4];
+
+            hugAnimation[0] = new CellSurface(1, 1);
+            hugAnimation[1] = new CellSurface(1, 1);
+            hugAnimation[2] = new CellSurface(1, 1);
+            hugAnimation[3] = new CellSurface(1, 1);
+
+            CellSurfaceEditor.SetGlyph(hugAnimation[0], 0, 0, new ColoredGlyph(new Color(Color.Red, 1.0f), Color.Transparent, 3));
+            CellSurfaceEditor.SetGlyph(hugAnimation[1], 0, 0, new ColoredGlyph(new Color(Color.Red, 0.8f), Color.Transparent, 3));
+            CellSurfaceEditor.SetGlyph(hugAnimation[2], 0, 0, new ColoredGlyph(new Color(Color.Red, 0.5f), Color.Transparent, 3));
+            CellSurfaceEditor.SetGlyph(hugAnimation[3], 0, 0, new ColoredGlyph(new Color(Color.Red, 0.3f), Color.Transparent, 3));
         }
     }
 }

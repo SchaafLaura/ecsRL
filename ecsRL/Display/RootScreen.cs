@@ -10,6 +10,7 @@ namespace ecsRL
         public MapDisplay _mapDisplay;
         public InfoDisplay _infoDisplay;
         public InputHandler _inputHandler;
+        public AnimationDisplay _animationDisplay;
 
         private static uint _currentActor = 0;
         private static Actor currentActor = Program.ecs.getActor(_currentActor);
@@ -20,7 +21,9 @@ namespace ecsRL
             this._logDisplay = logDisplay;
             this._infoDisplay = infoDisplay;
 
-            
+            _animationDisplay = new AnimationDisplay();
+
+            /*
             AnimatedScreenSurface test = new AnimatedScreenSurface("love", 1, 1);
             var frame = test.CreateFrame();
             CellSurfaceEditor.SetGlyph(frame, 0, 0, new ColoredGlyph(Color.Red, Color.Transparent, 3));
@@ -28,11 +31,14 @@ namespace ecsRL
             test.Repeat = false;
             test.Position = _mapDisplay.gameCoordsToSurfaceCoords(Program.player.position);
             test.Start();
+            */
 
             Children.Add(_logDisplay);
             Children.Add(_mapDisplay);
             Children.Add(_infoDisplay);
-            Children.Add(test);
+            Children.Add(_animationDisplay);
+            //Children.Add(test);
+            
 
             _inputHandler = new InputHandler();
         }
