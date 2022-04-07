@@ -33,6 +33,7 @@ namespace ecsRL
 
         public void display()
         {
+            // loop through visible tiles
             for(int i = 1; i < viewWidth - 1; i++)
             {
                 for(int j = 1; j < viewHeight - 1; j++)
@@ -51,6 +52,7 @@ namespace ecsRL
                         surface.Surface.SetCellAppearance(surfacePos.X, surfacePos.Y, item.renderComponent.glyph);
                     }
 
+                    // display actor at that position
                     Actor actor = map.actors.GetItem(gamePos.X, gamePos.Y);
                     if(actor != null)
                         surface.Surface.SetCellAppearance(surfacePos.X, surfacePos.Y, actor.renderComponent.glyph);
@@ -86,6 +88,7 @@ namespace ecsRL
                 entity.position.Y);
         }
 
+        // draws the border around the map
         private void init()
         {
             Color[] colors = new[] { Color.Turquoise, Color.HotPink };

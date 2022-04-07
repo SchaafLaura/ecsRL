@@ -16,7 +16,7 @@ namespace ecsRL
 
         public override bool tryTakeInput(Keys key)
         {
-            return false;
+            return false; // death never happens through (more than one) keypress
         }
 
         public override Action clone()

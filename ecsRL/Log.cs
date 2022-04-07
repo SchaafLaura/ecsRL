@@ -7,6 +7,26 @@ namespace ecsRL
 {
     public class Log
     {
+        List<LogItem> items;
+        public int numberOfItems;
+
+        public Log()
+        {
+            items = new List<LogItem>();
+            numberOfItems = 0;
+        }
+
+        public void log(ColoredString message)
+        {
+            items.Add(new LogItem(message));
+            numberOfItems++;
+        }
+
+        public ColoredString get(int i)
+        {
+            return items[i].toColoredString();
+        }
+
         private class LogItem : IEquatable<LogItem>
         {
             public ColoredString message;
@@ -34,26 +54,5 @@ namespace ecsRL
                 return message.Equals(other.message);
             }
         }
-
-        List<LogItem> items;
-        public int numberOfItems;
-
-        public Log()
-        {
-            items = new List<LogItem>();
-            numberOfItems = 0;
-        }
-
-        public void log(ColoredString message)
-        {
-            items.Add(new LogItem(message));
-            numberOfItems++;
-        }
-
-        public ColoredString get(int i)
-        {
-            return items[i].toColoredString();
-        }
-
     }
 }

@@ -2,7 +2,7 @@
 {
     public class ActionResult
     {
-        public Action alternative;
+        public Action alternative;  // action to perform instead
         public bool succeeded;
 
         public static ActionResult success = new ActionResult(true);

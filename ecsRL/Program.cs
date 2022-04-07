@@ -48,9 +48,11 @@ namespace ecsRL
         {
             map = new Map(MAP_WIDTH, MAP_HEIGHT);
 
+            // actors got generated in initECS() and now get added to the map for displaying and stuff
             foreach(Actor actor in ecs.Actors)
                 map.actors.Add(actor, actor.position.X, actor.position.Y);
 
+            // just a test for now
             Item testItem = new Item()
             {
                 name = "headless Teddybear",
@@ -58,20 +60,23 @@ namespace ecsRL
                 description = "a sad sight",
                 position = new Point(530, 530)
             };
-
             map.items.Add(testItem, new Coord(testItem.position.X, testItem.position.Y));
         }
 
         private static void initScreen()
         {
-            MapDisplay mapDisplay = new MapDisplay(map, SCREEN_WIDTH - 41, SCREEN_HEIGHT - 2, new Point(1, 1));
-            mapDisplay.centerOnEntity(ecs.getActor(0));
 
+            MapDisplay mapDisplay = new MapDisplay(map, SCREEN_WIDTH - 41, SCREEN_HEIGHT - 2, new Point(1, 1));
+            mapDisplay.centerOnEntity(ecs.getActor(0)); // centering on player, which always has ID 0
+
+            // ingame log
             log = new Log();
             LogDisplay logDisplay = new LogDisplay(log, 38, SCREEN_HEIGHT / 2 - 1, new Point(SCREEN_WIDTH - 39, 1));
 
+            // ingame debug information display
             InfoDisplay infoDisplay = new InfoDisplay(38, SCREEN_HEIGHT / 2 - 1, new Point(SCREEN_WIDTH - 40 + 1, SCREEN_HEIGHT / 2 + 1));
 
+            // handles creating player actions (for now)
             inputHandler = new InputHandler();
 
             rootScreen = new RootScreen(mapDisplay, logDisplay, infoDisplay);
@@ -82,6 +87,8 @@ namespace ecsRL
 
         private static void initECS()
         {
+            // creating ECS, then a bunch of actors and add them to the ECS
+
             ecs = new ECS();
 
             Creature cat = new Creature

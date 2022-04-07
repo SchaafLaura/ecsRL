@@ -47,11 +47,12 @@ namespace ecsRL
             return Program.rootScreen._mapDisplay.isOnScreen(gamePosition);
         }
 
-
         private class Animation : ScreenObject
         {
             AnimatedScreenSurface animation;
             Point gamePosition;
+            
+            // constructs a AnimatedScreenSurface from an array of CellSurfaces
             public Animation(CellSurface[] frames, Point gamePosition)
             {
                 this.gamePosition = gamePosition;
@@ -76,10 +77,10 @@ namespace ecsRL
                 private set { }
             }
 
+            // shifts the animation when the player moves
             public void updatePosition()
             {
-                animation.Position = Program.rootScreen._mapDisplay.gameCoordsToSurfaceCoords(gamePosition) + new Point(2, 1);
-
+                animation.Position = Program.rootScreen._mapDisplay.gameCoordsToSurfaceCoords(gamePosition) + new Point(2, 1); // weird offset for some reason?
             }
         }
 

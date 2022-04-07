@@ -7,6 +7,6 @@ using System.Threading.Tasks;
 namespace ecsRL { 
     public class Item : Entity
     {
-
+        // ...
     }
 }

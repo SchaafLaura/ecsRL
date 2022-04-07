@@ -6,6 +6,7 @@ namespace ecsRL
 {
     public class MovementAction : Action
     {
+        // TODO: move these out of movementAction - loads of actions are gonna need these
         public static Point N = new Point(0, -1);
         public static Point S = new Point(0, 1);
         public static Point W = new Point(-1, 0);
@@ -35,7 +36,7 @@ namespace ecsRL
 
         public override bool tryTakeInput(Keys key)
         {
-            return false;
+            return false; // movement Action gets created via only one input - no further ones will ever be required
         }
 
         public override bool isPerformable()
@@ -69,12 +70,14 @@ namespace ecsRL
             Actor actor = Program.ecs.getActor(performedByID);
             Point point = actor.position + direction;
 
+            // stay still
             if(direction.X == 0 && direction.Y == 0)
             {
                 actor.currentEnergy -= Cost;
                 return ActionResult.success;
             }
 
+            // tile is passable and there is no actor -> just move
             if(Program.map.tiles[point.X, point.Y].isPassable && Program.map.actors.GetItem(new Coord(point.X, point.Y)) == null)
             {
                 Program.map.moveActorToPoint(actor, point);
@@ -82,6 +85,7 @@ namespace ecsRL
                 actor.currentEnergy -= Cost;
                 return ActionResult.success;
             }
+            // tile contains an actor -> hugAction as alternative
             else if(Program.map.actors.GetItem(new Coord(point.X, point.Y)) != null)
             {
                 return new ActionResult(

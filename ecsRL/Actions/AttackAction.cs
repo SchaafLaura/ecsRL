@@ -23,6 +23,7 @@ namespace ecsRL
             directionIsSet = true;
         }
 
+        // direction keys specify direction, NUM keys define damage (for now)
         public override bool tryTakeInput(Keys key)
         {
             if(Equals(key, Keys.Left))
@@ -96,10 +97,12 @@ namespace ecsRL
             Coord attackPosition = new Coord((actor.position + direction).X, (actor.position + direction).Y);
             Actor other = Program.map.actors.GetItem(attackPosition);
 
+            // no one there to attack :(
             if(other == null)
             {
                 return ActionResult.failure;
             }
+            // someone to hit, yay :)
             else
             {
                 other.takeDamage(Damage);
@@ -114,6 +117,7 @@ namespace ecsRL
             }
         }
 
+        // setup static attackAnimation frames
         static AttackAction()
         {
             attackAnimation = new CellSurface[4];

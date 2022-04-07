@@ -6,41 +6,30 @@ namespace ecsRL
 {
     public class RootScreen : ScreenObject
     {
+        // subconsoles
         public LogDisplay _logDisplay;
         public MapDisplay _mapDisplay;
         public InfoDisplay _infoDisplay;
         public InputHandler _inputHandler;
         public AnimationDisplay _animationDisplay;
 
+        // actor used, when the gameLoop runs
         private static uint _currentActor = 0;
         private static Actor currentActor = Program.ecs.getActor(_currentActor);
 
         public RootScreen(MapDisplay mapDisplay, LogDisplay logDisplay, InfoDisplay infoDisplay)
         {
+            this._inputHandler = new InputHandler();
+
             this._mapDisplay = mapDisplay;
             this._logDisplay = logDisplay;
             this._infoDisplay = infoDisplay;
-
-            _animationDisplay = new AnimationDisplay();
-
-            /*
-            AnimatedScreenSurface test = new AnimatedScreenSurface("love", 1, 1);
-            var frame = test.CreateFrame();
-            CellSurfaceEditor.SetGlyph(frame, 0, 0, new ColoredGlyph(Color.Red, Color.Transparent, 3));
-            test.AnimationDuration = 10;
-            test.Repeat = false;
-            test.Position = _mapDisplay.gameCoordsToSurfaceCoords(Program.player.position);
-            test.Start();
-            */
+            this._animationDisplay = new AnimationDisplay();
 
             Children.Add(_logDisplay);
             Children.Add(_mapDisplay);
             Children.Add(_infoDisplay);
             Children.Add(_animationDisplay);
-            //Children.Add(test);
-            
-
-            _inputHandler = new InputHandler();
         }
 
         private void gameLoop()
@@ -49,12 +38,12 @@ namespace ecsRL
             {
                 var action = currentActor.getAction();
 
-                if(action == null) return;
+                if(action == null) return; // happens when player has not chosen an action yet
 
                 while(true)
                 {
                     var result = action.perform();
-                    if(!result.succeeded) return;
+                    if(!result.succeeded) return; // player chose invalid action
                     if(result.alternative == null) break;
                     action = result.alternative;
                 }
@@ -64,6 +53,7 @@ namespace ecsRL
                 currentActor.gainEnergy();
             }
 
+            // move to the next actor, skipping over ones, that might have been deleted in the ECS
             _currentActor = (_currentActor + 1) % Program.ecs.NumberOfActors;
             currentActor = Program.ecs.getActor(_currentActor);
             while(currentActor == null)
@@ -75,26 +65,30 @@ namespace ecsRL
 
         public override void Update(TimeSpan delta)
         {
+            // update infoDisplay information
             Point mouseLocation = getMouseLocation();
             if(mouseIsOverMap(mouseLocation))
                 _infoDisplay.infoLocation = new Point(mouseLocation.X, mouseLocation.Y);
             else
                 _infoDisplay.infoLocation = new Point(-1, -1);
 
+            // run the gameloop until it is the players turn
             gameLoop();
             while(_currentActor != 0)
                 gameLoop();
 
+            // input handling
             if(Game.Instance.Keyboard.HasKeysPressed)
                 _inputHandler.handleInput(Game.Instance.Keyboard);
 
             _mapDisplay.centerOnEntity(Program.player);
+
+            // display all the children
             base.Update(delta);
         }
 
         public Point getMouseLocation()
         {
-
             return Game.Instance.Mouse.ScreenPosition.PixelLocationToSurface(12, 12);
         }
 

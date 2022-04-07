@@ -7,9 +7,9 @@ namespace ecsRL
 {
     public class InfoDisplay : ScreenObject
     {
-        public ScreenSurface surface;
-        public ScreenSurface infoSurface;
-        public Point infoLocation = new Point(-1, -1);
+        public ScreenSurface surface;       // surface for the border
+        public ScreenSurface infoSurface;   // surface for displaying the debug info
+        public Point infoLocation = new Point(-1, -1);  // if infoLocation is (-1,-1), no information gets displayed
 
         public InfoDisplay(int width, int height, Point position)
         {
@@ -31,9 +31,11 @@ namespace ecsRL
             
             Point gameCoords = Program.rootScreen._mapDisplay.screenCoordsToGameCoords(infoLocation);
 
+            // get relevant data from the tile, that the mouse is over
             var entities = Program.map.actors.GetItems(gameCoords.X, gameCoords.Y);
             var items = Program.map.items.GetItems(gameCoords.X, gameCoords.Y);
 
+            // display information about the tile, that the mouse is over
             if(infoLocation.X != -1)
             {
                 infoSurface.Surface.Print(0, 0, new ColoredString("Coordinates: ") + new ColoredString(gameCoords.ToString()));
@@ -61,10 +63,6 @@ namespace ecsRL
                 }
 
             }
-
-            
-
-
         }
 
         public void drawBorder()

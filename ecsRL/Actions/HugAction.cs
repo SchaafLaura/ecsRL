@@ -20,6 +20,7 @@ namespace ecsRL
             directionIsSet = true;
         }
 
+        // movement keys set direction to hug in
         public override bool tryTakeInput(Keys key)
         {
             if(Equals(key, Keys.Left))
@@ -77,11 +78,13 @@ namespace ecsRL
             Actor actor = Program.ecs.getActor(performedByID);
             Coord hugPosition = new Coord((actor.position + direction).X, (actor.position + direction).Y);
             Actor other = Program.map.actors.GetItem(hugPosition);
-
+            
+            // no one to hug :(
             if(other == null)
             {
                 return ActionResult.failure;
             }
+            // someone to hug, yay :)
             else
             {
                 if(other.ID == 0)
@@ -100,6 +103,7 @@ namespace ecsRL
             }
         }
 
+        // setup static hugAnimation frames
         static HugAction()
         {
             hugAnimation = new CellSurface[4];

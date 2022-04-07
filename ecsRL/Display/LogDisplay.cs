@@ -6,9 +6,12 @@ namespace ecsRL
 {
     public class LogDisplay : ScreenObject
     {
+        // TODO: max number of displayed messages
+        // TODO: enable scrolling with a scrollbar (check SadConsole UI stuff)
+
         Log log;
-        ScreenSurface surface;
-        ScreenSurface logSurface;
+        ScreenSurface surface;      // surface containing the border
+        ScreenSurface logSurface;   // surface for drawin log messages
         public LogDisplay(Log log, int width, int height, Point position)
         {
             this.log = log;
@@ -34,6 +37,7 @@ namespace ecsRL
                 int x = 0;
                 int y = (log.numberOfItems - 1 - i) * 2;
 
+                // make the little dot infront of messsages have a gradient
                 if(!(x >= surface.Surface.Width || y >= surface.Surface.Height))  
                     logSurface.Surface.Print(
                         x, 

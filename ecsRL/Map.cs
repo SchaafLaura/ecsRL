@@ -22,9 +22,9 @@ namespace ecsRL
     [Serializable()]
     public class Map
     {
-        public SpatialMap<Actor> actors;
-        public MultiSpatialMap<Item> items;
-        public Tile[,] tiles;
+        public SpatialMap<Actor> actors;        // NPCs and player
+        public MultiSpatialMap<Item> items;     // pickups/consumables/etc
+        public Tile[,] tiles;                   // the actual map tile information
         public int width;
         public int height;
 
@@ -43,6 +43,7 @@ namespace ecsRL
             actors.Move(actor, new Coord(point.X, point.Y));
         }
 
+        // randomly fills the tiles array with predefined tiles
         public void init()
         {
             Random rng = new Random();
@@ -67,6 +68,7 @@ namespace ecsRL
             }
         }
 
+        // some predefined tiles
         Tile debugTile = new Tile(
             new ColoredGlyph(
                 Color.Violet,
