@@ -30,7 +30,9 @@ namespace ecsRL
             infoSurface.Surface.Clear();
             
             Point gameCoords = Program.rootScreen._mapDisplay.screenCoordsToGameCoords(infoLocation);
+
             var entities = Program.map.actors.GetItems(gameCoords.X, gameCoords.Y);
+            var items = Program.map.items.GetItems(gameCoords.X, gameCoords.Y);
 
             if(infoLocation.X != -1)
             {
@@ -39,10 +41,30 @@ namespace ecsRL
                 infoSurface.Surface.Print(0, 4, new ColoredString("Entity Count: ") + new ColoredString(entities.Count().ToString()));
                 if(entities.Count() != 0)
                 {
-                    infoSurface.Surface.Print(0, 6, entities.First().name, Color.White);
-                    infoSurface.Surface.Print(0, 8, entities.First().health.ToString(), Color.Red);
+                    Actor actor = entities.First();
+                    infoSurface.Surface.Print(0, 6, "name: " + actor.name, Color.White);
+                    infoSurface.Surface.Print(0, 8, "health: " + actor.health.ToString(), Color.Red);
+                    infoSurface.Surface.Print(0, 10, "description: " + actor.description, Color.White);
                 }
+
+                infoSurface.Surface.Print(0, 12, "--------------------------");
+
+                infoSurface.Surface.Print(0, 14, "ItemCount: " + items.Count().ToString());
+                if(items.Count() != 0)
+                {
+                    foreach(Item item in items)
+                    {
+                        infoSurface.Surface.Print(0, 16, "name: " + item.name, Color.White);
+                        infoSurface.Surface.Print(0, 18, "description: " + item.description, Color.White);
+
+                    }
+                }
+
             }
+
+            
+
+
         }
 
         public void drawBorder()

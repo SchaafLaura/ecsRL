@@ -40,12 +40,20 @@ namespace ecsRL
                     Point surfacePos = new Point(i, j);
                     Point gamePos = surfaceCoordsToGameCoords(surfacePos);
 
+                    // display underlaying tile
                     Tile tile = map.tiles[gamePos.X, gamePos.Y];
                     surface.Surface.SetCellAppearance(surfacePos.X, surfacePos.Y, tile.glyph);
 
+                    // display item(s) at that position
+                    var items = map.items.GetItems(gamePos.X, gamePos.Y);
+                    foreach(Item item in items)
+                    {
+                        surface.Surface.SetCellAppearance(surfacePos.X, surfacePos.Y, item.renderComponent.glyph);
+                    }
+
                     Actor actor = map.actors.GetItem(gamePos.X, gamePos.Y);
-                    if(actor != null && actor.components.ContainsKey((int)ComponentID.RENDER_COMPONENT))
-                        surface.Surface.SetCellAppearance(surfacePos.X, surfacePos.Y, ((RenderComponent)actor.components[(int)ComponentID.RENDER_COMPONENT]).glyph);
+                    if(actor != null)
+                        surface.Surface.SetCellAppearance(surfacePos.X, surfacePos.Y, actor.renderComponent.glyph);
                 }
             }
         }

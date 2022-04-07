@@ -1,6 +1,7 @@
 ﻿using SadConsole;
 using SadRogue.Primitives;
 using System;
+using GoRogue;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
@@ -49,6 +50,16 @@ namespace ecsRL
 
             foreach(Actor actor in ecs.Actors)
                 map.actors.Add(actor, actor.position.X, actor.position.Y);
+
+            Item testItem = new Item()
+            {
+                name = "headless Teddybear",
+                renderComponent = new RenderComponent(new ColoredGlyph(Color.Brown, Color.Transparent, 5)),
+                description = "a sad sight",
+                position = new Point(530, 530)
+            };
+
+            map.items.Add(testItem, new Coord(testItem.position.X, testItem.position.Y));
         }
 
         private static void initScreen()
@@ -77,36 +88,37 @@ namespace ecsRL
             {
                 position = new Point(525, 508),
                 name = "Matrix",
-                speed = 50
+                speed = 50,
+                renderComponent = new RenderComponent(
+                    new ColoredGlyph(Color.DarkGoldenrod, Color.Transparent, 'c'))
             };
 
             player = new Player
             {
                 position = new Point(523, 507),
                 name = "Laura",
-                speed = 100
+                speed = 100,
+                renderComponent = new RenderComponent(
+                    new ColoredGlyph(Color.HotPink, Color.Transparent, '@'))
             };
 
             Creature Lisa = new Creature
             {
                 position = new Point(522, 507),
                 name = "Lisa",
-                speed = 50
+                speed = 50, 
+                renderComponent = new RenderComponent(
+                    new ColoredGlyph(Color.Turquoise, Color.Transparent, '@')),
+                description = "super cute and valid"
             };
 
             ecs.addActor(player,
-                new AIComponent(),
-                new RenderComponent(
-                    new ColoredGlyph(Color.HotPink, Color.Transparent, '@')));
-
-            ecs.addActor(Lisa,
-                new RenderComponent(
-                    new ColoredGlyph(Color.Turquoise, Color.Transparent, '@')),
                 new AIComponent());
 
-            ecs.addActor(cat,
-                new RenderComponent(
-                    new ColoredGlyph(Color.DarkGoldenrod, Color.Transparent, 'c')));
+            ecs.addActor(Lisa,
+                new AIComponent());
+
+            ecs.addActor(cat);
 
             for(int i = 0; i < 10000; i++)
             {
@@ -116,12 +128,11 @@ namespace ecsRL
                     position = new Point(rng.Next(0, MAP_WIDTH), rng.Next(0, MAP_HEIGHT)),
                     name = "randomCreature " + i,
                     speed = rng.Next(5, 80),
-                    currentEnergy = 100
+                    currentEnergy = 100,
+                    renderComponent = new RenderComponent(
+                        new ColoredGlyph(Color.DarkGoldenrod, Color.Transparent, 'C'))
                 };
-
-                ecs.addActor(creature, 
-                    new RenderComponent(
-                        new ColoredGlyph(Color.DarkGoldenrod, Color.Transparent, 'C')));
+                ecs.addActor(creature);
             }
         }
     }

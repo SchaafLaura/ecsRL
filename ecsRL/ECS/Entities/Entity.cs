@@ -8,8 +8,10 @@ namespace ecsRL
     {
         public uint ID { get; set; }
         public string name;
+        public string description = "";
         public Point position;
         public Dictionary<int, Component> components;
+        public RenderComponent renderComponent;
 
         public Entity()
         {
