@@ -7,11 +7,21 @@ namespace ecsRL
 {
     public class AnimationDisplay : ScreenObject
     {
-        List<Animation> animations;
+        List<Animation> gameSpaceAnimations;
+        List<Animation> screenSpaceAnimations;
 
         public AnimationDisplay()
         {
-            animations = new List<Animation>();
+            gameSpaceAnimations = new List<Animation>();
+            screenSpaceAnimations = new List<Animation>();
+        }
+
+        public void addScreenSpaceAnimation(CellSurface[] frames, Point screenPosition)
+        {
+            Animation animation = new Animation(frames, screenPosition);
+            animation.setPosition(screenPosition);
+            screenSpaceAnimations.Add(animation);
+            Children.Add(animation);
         }
 
         public void tryAddAnimationAtGamePosition(CellSurface[] frames, Point gamePosition)
@@ -19,26 +29,37 @@ namespace ecsRL
             if(isOnScreen(gamePosition))
             {
                 Animation animation = new Animation(frames, gamePosition);
-                animations.Add(animation);
+                gameSpaceAnimations.Add(animation);
                 Children.Add(animation);
             }
         }
 
         public override void Update(TimeSpan delta)
         {
-            for(int i = 0; i < animations.Count; i++)
+            for(int i = 0; i < gameSpaceAnimations.Count; i++)
             {
-                if(!animations[i].isPlaying)
+                if(!gameSpaceAnimations[i].isPlaying)
                 {
-                    Children.Remove(animations[i]);
-                    animations[i] = null;
-                    animations.RemoveAt(i);
+                    Children.Remove(gameSpaceAnimations[i]);
+                    gameSpaceAnimations[i] = null;
+                    gameSpaceAnimations.RemoveAt(i);
                 }
                 else
                 {
-                    animations[i].updatePosition();
+                    gameSpaceAnimations[i].updatePosition();
                 }
             }
+
+            for(int i = 0; i < screenSpaceAnimations.Count; i++)
+            {
+                if(!screenSpaceAnimations[i].isPlaying)
+                {
+                    Children.Remove(screenSpaceAnimations[i]);
+                    screenSpaceAnimations[i] = null;
+                    screenSpaceAnimations.RemoveAt(i);
+                }
+            }
+
             base.Update(delta);
         }
 
@@ -81,6 +102,11 @@ namespace ecsRL
             public void updatePosition()
             {
                 animation.Position = Program.rootScreen._mapDisplay.gameCoordsToSurfaceCoords(gamePosition) + new Point(2, 1); // weird offset for some reason?
+            }
+
+            public void setPosition(Point position)
+            {
+                animation.Position = position;
             }
         }
 

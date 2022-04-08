@@ -1,6 +1,8 @@
 ﻿using SadConsole;
 using SadRogue.Primitives;
 using System;
+using SadConsole.UI;
+using SadConsole.UI.Controls;
 
 namespace ecsRL
 {
@@ -26,10 +28,24 @@ namespace ecsRL
             this._infoDisplay = infoDisplay;
             this._animationDisplay = new AnimationDisplay();
 
+            /*
+            ControlsConsole testwindow = new ControlsConsole(50, 50);
+            testwindow.Position = new Point(10, 10);
+            testwindow.Print(1, 1, "hello, this is a test");
+
+            SelectionButton btn1 = new SelectionButton(10, 2);
+            btn1.Text = "test";
+            btn1.Position = new Point(10, 10);
+            btn1.Click += gameLoop;
+            testwindow.Controls.Add(btn1);
+            */
+            
             Children.Add(_logDisplay);
             Children.Add(_mapDisplay);
             Children.Add(_infoDisplay);
             Children.Add(_animationDisplay);
+            
+            // Children.Add(testwindow);
         }
 
         private void gameLoop()

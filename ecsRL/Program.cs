@@ -2,8 +2,7 @@
 using SadRogue.Primitives;
 using System;
 using GoRogue;
-using System.Text.Json;
-using System.Text.Json.Serialization;
+using SadConsole.UI;
 
 namespace ecsRL
 {
