@@ -1,5 +1,6 @@
 ﻿using System;
 using GoRogue;
+using GoRogue.MapViews;
 using SadConsole;
 using SadRogue.Primitives;
 
@@ -20,7 +21,7 @@ namespace ecsRL
     }
 
     [Serializable()]
-    public class Map
+    public class Map : IMapView <bool>
     {
         public SpatialMap<Actor> actors;        // NPCs and player
         public MultiSpatialMap<Item> items;     // pickups/consumables/etc
@@ -36,6 +37,32 @@ namespace ecsRL
             items = new MultiSpatialMap<Item>();
             tiles = new Tile[width, height];
             init();
+        }
+
+        bool IMapView<bool>.this[int index1D]
+        {
+            get
+            {
+                int x = index1D % width;
+                int y = index1D / width;
+                return tiles[x, y].isPassable;
+            }
+        }
+
+        bool IMapView<bool>.this[Coord pos]
+        {
+            get
+            {
+                return tiles[pos.X, pos.Y].isPassable;
+            }
+        }
+
+        bool IMapView<bool>.this[int x, int y]
+        {
+            get
+            {
+                return tiles[x, y].isPassable;
+            }
         }
 
         public void moveActorToPoint(Actor actor, Point point)
@@ -67,6 +94,32 @@ namespace ecsRL
                 }
             }
         }
+
+        public int Height
+        {
+            get
+            {
+                return height;
+            }
+            set
+            {
+                height = value;
+            }
+        }
+
+        public int Width
+        {
+            get
+            {
+                return width;
+            }
+            set
+            {
+                width = value;
+            }
+        }
+
+        
 
         // some predefined tiles
         Tile debugTile = new Tile(

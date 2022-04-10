@@ -1,10 +1,12 @@
-﻿namespace ecsRL
+﻿using GoRogue.Pathing;
+namespace ecsRL
 {
     public abstract class Actor : Entity
     {
         public int health = 100;
         public int speed = 100;
         public int currentEnergy = 100;
+        //FastAStar aStar = new FastAStar(Program.map, GoRogue.Distance.MANHATTAN);
 
         public void gainEnergy()
         {

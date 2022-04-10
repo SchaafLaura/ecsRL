@@ -2,7 +2,7 @@
 using SadRogue.Primitives;
 using System;
 using GoRogue;
-using SadConsole.UI;
+using GoRogue.Pathing;
 
 namespace ecsRL
 {
@@ -14,6 +14,7 @@ namespace ecsRL
         public static Log log;
         public static RootScreen rootScreen;
         public static InputHandler inputHandler;
+        public static FastAStar fastAStar;
         
         public const int SCREEN_WIDTH = 160;
         public const int SCREEN_HEIGHT = 85;
@@ -33,6 +34,9 @@ namespace ecsRL
 
         private static void Init()
         {
+            ecs = new ECS();
+            map = new Map(MAP_WIDTH, MAP_HEIGHT);
+            fastAStar = new FastAStar(map, GoRogue.Distance.MANHATTAN);
             // initialize ECS
             initECS();
 
@@ -45,8 +49,6 @@ namespace ecsRL
 
         private static void initMap()
         {
-            map = new Map(MAP_WIDTH, MAP_HEIGHT);
-
             // actors got generated in initECS() and now get added to the map for displaying and stuff
             foreach(Actor actor in ecs.Actors)
                 map.actors.Add(actor, actor.position.X, actor.position.Y);
@@ -88,7 +90,7 @@ namespace ecsRL
         {
             // creating ECS, then a bunch of actors and add them to the ECS
 
-            ecs = new ECS();
+            
 
             Creature cat = new Creature
             {
@@ -126,12 +128,12 @@ namespace ecsRL
 
             ecs.addActor(cat);
 
-            for(int i = 0; i < 10000; i++)
+            for(int i = 0; i < 5000; i++)
             {
                 Random rng = new Random();
                 Creature creature = new Creature
                 {
-                    position = new Point(rng.Next(0, MAP_WIDTH), rng.Next(0, MAP_HEIGHT)),
+                    position = new Point(rng.Next(20, MAP_WIDTH - 20), rng.Next(20, MAP_HEIGHT - 20)),
                     name = "randomCreature " + i,
                     speed = rng.Next(5, 80),
                     currentEnergy = 100,
