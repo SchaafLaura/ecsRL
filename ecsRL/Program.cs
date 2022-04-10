@@ -37,6 +37,7 @@ namespace ecsRL
             ecs = new ECS();
             map = new Map(MAP_WIDTH, MAP_HEIGHT);
             fastAStar = new FastAStar(map, GoRogue.Distance.MANHATTAN);
+
             // initialize ECS
             initECS();
 
